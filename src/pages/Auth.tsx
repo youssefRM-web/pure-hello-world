@@ -28,10 +28,10 @@ const Auth = () => {
     try {
       const response = await apiLogin({ email: signInEmail, password: signInPassword });
       login(response.access_token, response.restaurant as Record<string, unknown> | undefined);
-      toast({ title: t("welcomeBack"), description: "Login successful" });
+      toast({ title: t("welcomeBack"), description: t("loginSuccess") });
       navigate("/");
     } catch (error: any) {
-      toast({ title: "Error", description: error.message || "Login failed", variant: "destructive" });
+      toast({ title: t("error"), description: error.message || t("loginFailed"), variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
