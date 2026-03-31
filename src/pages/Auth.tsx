@@ -1,15 +1,40 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { login as apiLogin } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const toggleMode = () => {
-    setIsSignUp(!isSignUp);
+  // Sign in form state
+  const [signInEmail, setSignInEmail] = useState("");
+  const [signInPassword, setSignInPassword] = useState("");
+
+  const toggleMode = () => setIsSignUp(!isSignUp);
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await apiLogin({ email: signInEmail, password: signInPassword });
+      login(response.access_token, response.restaurant as Record<string, unknown> | undefined);
+      toast({ title: t("welcomeBack"), description: "Login successful" });
+      navigate("/");
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message || "Login failed", variant: "destructive" });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -53,23 +78,13 @@ const Auth = () => {
               <>
                 <h2 className="text-3xl font-bold mb-4">{t("welcomeBack")}</h2>
                 <div className="mb-6">
-                  <svg
-                    className="w-12 h-12 mx-auto"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  >
+                  <svg className="w-12 h-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                   </svg>
                 </div>
                 <p className="text-white/80 mb-8">{t("alreadyHaveAccount")}</p>
-                <Button
-                  variant="outline"
-                  onClick={toggleMode}
-                  className="border-white text-white bg-transparent hover:text-[#1a237e] transition-colors px-12 rounded-full"
-                >
+                <Button variant="outline" onClick={toggleMode} className="border-white text-white bg-transparent hover:text-[#1a237e] transition-colors px-12 rounded-full">
                   {t("signIn")}
                 </Button>
               </>
@@ -77,25 +92,13 @@ const Auth = () => {
               <>
                 <h2 className="text-3xl font-bold mb-4">{t("helloThere")}</h2>
                 <div className="mb-6">
-                  <svg
-                    className="w-12 h-12 mx-auto"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  >
+                  <svg className="w-12 h-12 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                   </svg>
                 </div>
-                <p className="text-white/80 mb-8 max-w-xs">
-                  {t("createRestaurantAccount")}
-                </p>
-                <Button
-                  variant="outline"
-                  onClick={toggleMode}
-                  className="border-white text-white bg-transparent hover:text-[#1a237e] transition-colors px-12 rounded-full"
-                >
+                <p className="text-white/80 mb-8 max-w-xs">{t("createRestaurantAccount")}</p>
+                <Button variant="outline" onClick={toggleMode} className="border-white text-white bg-transparent hover:text-[#1a237e] transition-colors px-12 rounded-full">
                   {t("signUp")}
                 </Button>
               </>
@@ -104,115 +107,52 @@ const Auth = () => {
         </div>
 
         {/* Sign In Form */}
-        <div
-          className={`w-1/2 flex flex-col items-center justify-center p-8 transition-opacity duration-500 ${
-            isSignUp ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}
-        >
+        <div className={`w-1/2 flex flex-col items-center justify-center p-8 transition-opacity duration-500 ${isSignUp ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
           <div className="w-full max-w-sm">
-            <h2 className="text-2xl font-bold text-foreground mb-2 text-center">
-              {t("welcomeBack")}
-            </h2>
-            <p className="text-muted-foreground text-center mb-8">
-              {t("signInToAccount")}
-            </p>
-
-            <form className="space-y-5">
+            <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("welcomeBack")}</h2>
+            <p className="text-muted-foreground text-center mb-8">{t("signInToAccount")}</p>
+            <form className="space-y-5" onSubmit={handleSignIn}>
               <div className="space-y-2">
                 <Label htmlFor="signin-email">{t("email")}</Label>
-                <Input
-                  id="signin-email"
-                  type="email"
-                  placeholder={t("enterYourEmail")}
-                  className="h-12"
-                />
+                <Input id="signin-email" type="email" placeholder={t("enterYourEmail")} className="h-12" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} required />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="signin-password">{t("password")}</Label>
-                <Input
-                  id="signin-password"
-                  type="password"
-                  placeholder={t("enterYourPassword")}
-                  className="h-12"
-                />
+                <Input id="signin-password" type="password" placeholder={t("enterYourPassword")} className="h-12" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} required />
               </div>
-
               <div className="flex items-center justify-end">
-                <a href="#" className="text-sm text-primary hover:underline">
-                  {t("forgotPassword")}
-                </a>
+                <a href="#" className="text-sm text-primary hover:underline">{t("forgotPassword")}</a>
               </div>
-
-              <Button
-                type="submit"
-                className="w-full h-12 bg-[#0A2472] hover:bg-[#0A2472]/90 text-white rounded-full font-medium transition-all duration-300"
-              >
-                {t("signIn")}
+              <Button type="submit" disabled={isLoading} className="w-full h-12 bg-[#0A2472] hover:bg-[#0A2472]/90 text-white rounded-full font-medium transition-all duration-300">
+                {isLoading ? "..." : t("signIn")}
               </Button>
             </form>
           </div>
         </div>
 
         {/* Sign Up Form */}
-        <div
-          className={`w-1/2 flex flex-col items-center justify-center p-8 absolute right-0 top-0 h-full transition-opacity duration-500 ${
-            isSignUp ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
-        >
+        <div className={`w-1/2 flex flex-col items-center justify-center p-8 absolute right-0 top-0 h-full transition-opacity duration-500 ${isSignUp ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
           <div className="w-full max-w-sm">
-            <h2 className="text-2xl font-bold text-foreground mb-2 text-center">
-              {t("helloThere")}
-            </h2>
-            <p className="text-muted-foreground text-center mb-8">
-              {t("createYourAccount")}
-            </p>
-
+            <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("helloThere")}</h2>
+            <p className="text-muted-foreground text-center mb-8">{t("createYourAccount")}</p>
             <form className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="signup-name">{t("restaurantName")}</Label>
-                <Input
-                  id="signup-name"
-                  type="text"
-                  placeholder={t("restaurantName")}
-                  className="h-12"
-                />
+                <Input id="signup-name" type="text" placeholder={t("restaurantName")} className="h-12" />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="signup-address">{t("address")}</Label>
-                <Input
-                  id="signup-address"
-                  type="text"
-                  placeholder={t("address")}
-                  className="h-12"
-                />
+                <Input id="signup-address" type="text" placeholder={t("address")} className="h-12" />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="signup-email">{t("contactEmail")}</Label>
-                <Input
-                  id="signup-email"
-                  type="email"
-                  placeholder={t("contactEmail")}
-                  className="h-12"
-                />
+                <Input id="signup-email" type="email" placeholder={t("contactEmail")} className="h-12" />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="signup-password">{t("password")}</Label>
-                <Input
-                  id="signup-password"
-                  type="password"
-                  placeholder={t("password")}
-                  className="h-12"
-                />
+                <Input id="signup-password" type="password" placeholder={t("password")} className="h-12" />
               </div>
-
-              <Button
-                type="submit"
-                className="w-full h-12 bg-[#0A2472] hover:bg-[#0A2472]/90 text-white rounded-full font-medium transition-all duration-300 mt-2"
-              >
+              <Button type="submit" className="w-full h-12 bg-[#0A2472] hover:bg-[#0A2472]/90 text-white rounded-full font-medium transition-all duration-300 mt-2">
                 {t("signUp")}
               </Button>
             </form>
@@ -225,128 +165,59 @@ const Auth = () => {
         <div className="flex flex-col">
           {!isSignUp ? (
             <div className="p-6 sm:p-8">
-              <h2 className="text-2xl font-bold text-foreground mb-2 text-center">
-                {t("welcomeBack")}
-              </h2>
-              <p className="text-muted-foreground text-center mb-6">
-                {t("signInToAccount")}
-              </p>
-
-              <form className="space-y-4">
+              <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("welcomeBack")}</h2>
+              <p className="text-muted-foreground text-center mb-6">{t("signInToAccount")}</p>
+              <form className="space-y-4" onSubmit={handleSignIn}>
                 <div className="space-y-2">
                   <Label htmlFor="mobile-signin-email">{t("email")}</Label>
-                  <Input
-                    id="mobile-signin-email"
-                    type="email"
-                    placeholder={t("enterYourEmail")}
-                    className="h-12"
-                  />
+                  <Input id="mobile-signin-email" type="email" placeholder={t("enterYourEmail")} className="h-12" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} required />
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="mobile-signin-password">{t("password")}</Label>
-                  <Input
-                    id="mobile-signin-password"
-                    type="password"
-                    placeholder={t("enterYourPassword")}
-                    className="h-12"
-                  />
+                  <Input id="mobile-signin-password" type="password" placeholder={t("enterYourPassword")} className="h-12" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} required />
                 </div>
-
                 <div className="flex items-center justify-end">
-                  <a href="#" className="text-sm text-primary hover:underline">
-                    {t("forgotPassword")}
-                  </a>
+                  <a href="#" className="text-sm text-primary hover:underline">{t("forgotPassword")}</a>
                 </div>
-
-                <Button
-                  type="submit"
-                  className="w-full h-12 bg-gradient-to-r from-[#1a237e] to-[#0d1442] text-white rounded-full"
-                >
-                  {t("signIn")}
+                <Button type="submit" disabled={isLoading} className="w-full h-12 bg-gradient-to-r from-[#1a237e] to-[#0d1442] text-white rounded-full">
+                  {isLoading ? "..." : t("signIn")}
                 </Button>
               </form>
-
               <div className="mt-6 pt-6 border-t border-border text-center">
-                <p className="text-muted-foreground mb-3">
-                  {t("dontHaveAccount")}
-                </p>
-                <Button
-                  variant="outline"
-                  onClick={toggleMode}
-                  className="border-[#1a237e] text-[#1a237e] rounded-full px-8"
-                >
+                <p className="text-muted-foreground mb-3">{t("dontHaveAccount")}</p>
+                <Button variant="outline" onClick={toggleMode} className="border-[#1a237e] text-[#1a237e] rounded-full px-8">
                   {t("signUp")}
                 </Button>
               </div>
             </div>
           ) : (
             <div className="p-6 sm:p-8">
-              <h2 className="text-2xl font-bold text-foreground mb-2 text-center">
-                {t("helloThere")}
-              </h2>
-              <p className="text-muted-foreground text-center mb-6">
-                {t("createYourAccount")}
-              </p>
-
+              <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("helloThere")}</h2>
+              <p className="text-muted-foreground text-center mb-6">{t("createYourAccount")}</p>
               <form className="space-y-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="mobile-signup-name">{t("restaurantName")}</Label>
-                  <Input
-                    id="mobile-signup-name"
-                    type="text"
-                    placeholder={t("restaurantName")}
-                    className="h-11"
-                  />
+                  <Input id="mobile-signup-name" type="text" placeholder={t("restaurantName")} className="h-11" />
                 </div>
-
                 <div className="space-y-1.5">
                   <Label htmlFor="mobile-signup-address">{t("address")}</Label>
-                  <Input
-                    id="mobile-signup-address"
-                    type="text"
-                    placeholder={t("address")}
-                    className="h-11"
-                  />
+                  <Input id="mobile-signup-address" type="text" placeholder={t("address")} className="h-11" />
                 </div>
-
                 <div className="space-y-1.5">
                   <Label htmlFor="mobile-signup-email">{t("contactEmail")}</Label>
-                  <Input
-                    id="mobile-signup-email"
-                    type="email"
-                    placeholder={t("contactEmail")}
-                    className="h-11"
-                  />
+                  <Input id="mobile-signup-email" type="email" placeholder={t("contactEmail")} className="h-11" />
                 </div>
-
                 <div className="space-y-1.5">
                   <Label htmlFor="mobile-signup-password">{t("password")}</Label>
-                  <Input
-                    id="mobile-signup-password"
-                    type="password"
-                    placeholder={t("password")}
-                    className="h-11"
-                  />
+                  <Input id="mobile-signup-password" type="password" placeholder={t("password")} className="h-11" />
                 </div>
-
-                <Button
-                  type="submit"
-                  className="w-full h-12 bg-gradient-to-r from-[#1a237e] to-[#0d1442] text-white rounded-full mt-2"
-                >
+                <Button type="submit" className="w-full h-12 bg-gradient-to-r from-[#1a237e] to-[#0d1442] text-white rounded-full mt-2">
                   {t("signUp")}
                 </Button>
               </form>
-
               <div className="mt-4 pt-4 border-t border-border text-center">
-                <p className="text-muted-foreground mb-3">
-                  {t("alreadyHaveAccount")}
-                </p>
-                <Button
-                  variant="outline"
-                  onClick={toggleMode}
-                  className="border-[#1a237e] text-[#1a237e] rounded-full px-8"
-                >
+                <p className="text-muted-foreground mb-3">{t("alreadyHaveAccount")}</p>
+                <Button variant="outline" onClick={toggleMode} className="border-[#1a237e] text-[#1a237e] rounded-full px-8">
                   {t("signIn")}
                 </Button>
               </div>
