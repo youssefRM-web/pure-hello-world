@@ -83,6 +83,9 @@ const translations: Translations = {
   address: { en: "Address", de: "Adresse" },
   contactEmail: { en: "Contact Email", de: "Kontakt-E-Mail" },
   dontHaveAccount: { en: "Don't have an account?", de: "Haben Sie noch kein Konto?" },
+  loginSuccess: { en: "Login successful", de: "Anmeldung erfolgreich" },
+  loginFailed: { en: "Login failed", de: "Anmeldung fehlgeschlagen" },
+  error: { en: "Error", de: "Fehler" },
   
   // Orders Overview
   ordersOverview: { en: "Orders Overview", de: "Bestellungsübersicht" },

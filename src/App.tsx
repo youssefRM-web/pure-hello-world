@@ -13,9 +13,7 @@ import MenuEditing from "./pages/MenuEditing";
 import Orders from "./pages/Orders";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
-
-const App = () => (
+// removed duplicate - handled above
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
     <LanguageProvider>
