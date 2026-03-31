@@ -26,7 +26,14 @@ interface SidebarProps {
 
 export function Sidebar({ isCollapsed, onToggle, isMobileOpen, onMobileClose }: SidebarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/auth");
+  };
 
   return (
     <>
