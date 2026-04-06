@@ -14,7 +14,7 @@ const Index = () => {
 
   const totalOrders = orders?.length ?? 0;
   const pendingOrders = orders?.filter(o => ["pending_payment", "confirmed", "preparing"].includes(o.status)).length ?? 0;
-  const completedOrders = orders?.filter(o => o.status === "delivered").includes ? orders?.filter(o => o.status === "delivered").length ?? 0 : 0;
+  const completedOrders = orders?.filter(o => o.status === "delivered").length ?? 0;
 
   const kpiData = [
     { titleKey: "menusToday", value: restaurant?.menus?.length ?? 0, percentage: 100, color: "blue" as const },
