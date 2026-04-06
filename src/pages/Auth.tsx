@@ -5,37 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { login as apiLogin } from "@/lib/api";
+import { login as apiLogin, signup as apiSignup } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import SignInForm from "@/components/auth/SignInForm";
+import SignUpForm from "@/components/auth/SignUpForm";
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const { language, setLanguage, t } = useLanguage();
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Sign in form state
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
-
   const toggleMode = () => setIsSignUp(!isSignUp);
-
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const response = await apiLogin({ email: signInEmail, password: signInPassword });
-      login(response.access_token, response.restaurant as Record<string, unknown> | undefined);
-      toast({ title: t("welcomeBack"), description: t("loginSuccess") });
-      navigate("/");
-    } catch (error: any) {
-      toast({ title: t("error"), description: error.message || t("loginFailed"), variant: "destructive" });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-background p-4">
@@ -66,7 +44,7 @@ const Auth = () => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:flex relative w-full max-w-4xl h-[600px] bg-card rounded-sm shadow-2xl overflow-hidden">
+      <div className="hidden md:flex relative w-full max-w-4xl h-[650px] bg-card rounded-sm shadow-2xl overflow-hidden">
         {/* Animated Blue Panel */}
         <div
           className={`absolute top-0 h-full w-1/2 bg-[#0A2472] z-20 flex flex-col items-center justify-center text-white p-8 transition-transform duration-700 ease-in-out ${
@@ -108,55 +86,12 @@ const Auth = () => {
 
         {/* Sign In Form */}
         <div className={`w-1/2 flex flex-col items-center justify-center p-8 transition-opacity duration-500 ${isSignUp ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
-          <div className="w-full max-w-sm">
-            <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("welcomeBack")}</h2>
-            <p className="text-muted-foreground text-center mb-8">{t("signInToAccount")}</p>
-            <form className="space-y-5" onSubmit={handleSignIn}>
-              <div className="space-y-2">
-                <Label htmlFor="signin-email">{t("email")}</Label>
-                <Input id="signin-email" type="email" placeholder={t("enterYourEmail")} className="h-12" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="signin-password">{t("password")}</Label>
-                <Input id="signin-password" type="password" placeholder={t("enterYourPassword")} className="h-12" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} required />
-              </div>
-              <div className="flex items-center justify-end">
-                <a href="#" className="text-sm text-primary hover:underline">{t("forgotPassword")}</a>
-              </div>
-              <Button type="submit" disabled={isLoading} className="w-full h-12 bg-[#0A2472] hover:bg-[#0A2472]/90 text-white rounded-full font-medium transition-all duration-300">
-                {isLoading ? "..." : t("signIn")}
-              </Button>
-            </form>
-          </div>
+          <SignInForm />
         </div>
 
         {/* Sign Up Form */}
-        <div className={`w-1/2 flex flex-col items-center justify-center p-8 absolute right-0 top-0 h-full transition-opacity duration-500 ${isSignUp ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-          <div className="w-full max-w-sm">
-            <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("helloThere")}</h2>
-            <p className="text-muted-foreground text-center mb-8">{t("createYourAccount")}</p>
-            <form className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="signup-name">{t("restaurantName")}</Label>
-                <Input id="signup-name" type="text" placeholder={t("restaurantName")} className="h-12" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="signup-address">{t("address")}</Label>
-                <Input id="signup-address" type="text" placeholder={t("address")} className="h-12" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="signup-email">{t("contactEmail")}</Label>
-                <Input id="signup-email" type="email" placeholder={t("contactEmail")} className="h-12" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="signup-password">{t("password")}</Label>
-                <Input id="signup-password" type="password" placeholder={t("password")} className="h-12" />
-              </div>
-              <Button type="submit" className="w-full h-12 bg-[#0A2472] hover:bg-[#0A2472]/90 text-white rounded-full font-medium transition-all duration-300 mt-2">
-                {t("signUp")}
-              </Button>
-            </form>
-          </div>
+        <div className={`w-1/2 flex flex-col items-center justify-center p-8 absolute right-0 top-0 h-full transition-opacity duration-500 overflow-y-auto ${isSignUp ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+          <SignUpForm />
         </div>
       </div>
 
@@ -165,24 +100,7 @@ const Auth = () => {
         <div className="flex flex-col">
           {!isSignUp ? (
             <div className="p-6 sm:p-8">
-              <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("welcomeBack")}</h2>
-              <p className="text-muted-foreground text-center mb-6">{t("signInToAccount")}</p>
-              <form className="space-y-4" onSubmit={handleSignIn}>
-                <div className="space-y-2">
-                  <Label htmlFor="mobile-signin-email">{t("email")}</Label>
-                  <Input id="mobile-signin-email" type="email" placeholder={t("enterYourEmail")} className="h-12" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="mobile-signin-password">{t("password")}</Label>
-                  <Input id="mobile-signin-password" type="password" placeholder={t("enterYourPassword")} className="h-12" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} required />
-                </div>
-                <div className="flex items-center justify-end">
-                  <a href="#" className="text-sm text-primary hover:underline">{t("forgotPassword")}</a>
-                </div>
-                <Button type="submit" disabled={isLoading} className="w-full h-12 bg-gradient-to-r from-[#1a237e] to-[#0d1442] text-white rounded-full">
-                  {isLoading ? "..." : t("signIn")}
-                </Button>
-              </form>
+              <SignInForm />
               <div className="mt-6 pt-6 border-t border-border text-center">
                 <p className="text-muted-foreground mb-3">{t("dontHaveAccount")}</p>
                 <Button variant="outline" onClick={toggleMode} className="border-[#1a237e] text-[#1a237e] rounded-full px-8">
@@ -191,30 +109,8 @@ const Auth = () => {
               </div>
             </div>
           ) : (
-            <div className="p-6 sm:p-8">
-              <h2 className="text-2xl font-bold text-foreground mb-2 text-center">{t("helloThere")}</h2>
-              <p className="text-muted-foreground text-center mb-6">{t("createYourAccount")}</p>
-              <form className="space-y-3">
-                <div className="space-y-1.5">
-                  <Label htmlFor="mobile-signup-name">{t("restaurantName")}</Label>
-                  <Input id="mobile-signup-name" type="text" placeholder={t("restaurantName")} className="h-11" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="mobile-signup-address">{t("address")}</Label>
-                  <Input id="mobile-signup-address" type="text" placeholder={t("address")} className="h-11" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="mobile-signup-email">{t("contactEmail")}</Label>
-                  <Input id="mobile-signup-email" type="email" placeholder={t("contactEmail")} className="h-11" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="mobile-signup-password">{t("password")}</Label>
-                  <Input id="mobile-signup-password" type="password" placeholder={t("password")} className="h-11" />
-                </div>
-                <Button type="submit" className="w-full h-12 bg-gradient-to-r from-[#1a237e] to-[#0d1442] text-white rounded-full mt-2">
-                  {t("signUp")}
-                </Button>
-              </form>
+            <div className="p-6 sm:p-8 max-h-[80vh] overflow-y-auto">
+              <SignUpForm />
               <div className="mt-4 pt-4 border-t border-border text-center">
                 <p className="text-muted-foreground mb-3">{t("alreadyHaveAccount")}</p>
                 <Button variant="outline" onClick={toggleMode} className="border-[#1a237e] text-[#1a237e] rounded-full px-8">
