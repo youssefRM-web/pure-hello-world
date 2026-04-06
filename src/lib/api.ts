@@ -75,10 +75,11 @@ export function signup(data: SignupPayload): Promise<LoginResponse> {
 
 // Orders
 export interface ApiOrderItem {
-  item_name: string;
+  item_name?: string;
   quantity: number;
   price: number;
   total?: number;
+  options?: unknown[];
 }
 
 export interface ApiOrder {
@@ -90,11 +91,15 @@ export interface ApiOrder {
   status: string;
   paymentStatus?: string;
   total_amount?: number;
+  total_price?: number;
   subtotal?: number;
   service_fee?: number;
   created_at?: string;
+  createdAt?: string;
   restaurant_id?: string;
   menu_name?: string;
+  currency?: string;
+  source?: string;
 }
 
 export function getOrders(params?: { status?: string }): Promise<ApiOrder[]> {
@@ -116,4 +121,51 @@ export function updateOrder(
     method: "PATCH",
     body: JSON.stringify(data),
   });
+}
+
+// Restaurant
+export interface RestaurantData {
+  _id: string;
+  name: string;
+  address: { line1?: string; lat?: number; lng?: number };
+  phone: string;
+  email: string;
+  status: string;
+  foodType: string[];
+  menus: string[];
+  workingHours?: Record<string, unknown>;
+  created_at?: string;
+}
+
+// Menus
+export interface MenuItemData {
+  item_name?: string;
+  description?: string;
+  price?: number;
+  ingredients?: string[];
+  calories?: string;
+  portion_size?: string;
+  photo?: string;
+  available?: boolean;
+}
+
+export interface MenuCategory {
+  category_name: string;
+  items: MenuItemData[];
+  _id?: string;
+}
+
+export interface MenuData {
+  _id: string;
+  restaurant_id: string;
+  menu_name: string;
+  currency: string;
+  menus: MenuCategory[];
+  Supplements?: unknown[];
+  offer?: { title?: string; description?: string; active?: boolean };
+  created_at?: string;
+}
+
+export function getMenu(id: string): Promise<MenuData> {
+  return apiRequest<MenuData>(`/menus/${id}`);
 }

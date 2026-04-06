@@ -65,6 +65,11 @@ const translations: Translations = {
   ordersPending: { en: "Orders Pending", de: "Ausstehende Bestellungen" },
   ordersCompleted: { en: "Orders Completed", de: "Abgeschlossene Bestellungen" },
   newCustomers: { en: "New Customers", de: "Neue Kunden" },
+  totalOrders: { en: "Total Orders", de: "Gesamtbestellungen" },
+  orderUpdated: { en: "Order updated", de: "Bestellung aktualisiert" },
+  source: { en: "Source", de: "Quelle" },
+  item: { en: "Item", de: "Artikel" },
+  category: { en: "Category", de: "Kategorie" },
   
   // Auth Page
   helloThere: { en: "Hello, There!", de: "Hallo!" },

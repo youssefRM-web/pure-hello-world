@@ -22,7 +22,7 @@ const SignInForm = () => {
     setIsLoading(true);
     try {
       const response = await apiLogin({ email, password });
-      login(response.access_token, response.restaurant as Record<string, unknown> | undefined);
+      login(response.access_token, response.restaurant as any);
       toast({ title: t("welcomeBack"), description: t("loginSuccess") });
       navigate("/");
     } catch (error: any) {
