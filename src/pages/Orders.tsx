@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { OrderDetails } from "@/components/orders/OrderDetails";
-import { useOrders, useUpdateOrder } from "@/hooks/useOrders";
+import { useOrders, useOrder, useUpdateOrder } from "@/hooks/useOrders";
 import type { ApiOrder } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 
@@ -58,16 +58,17 @@ function formatDate(dateStr?: string): string {
 const Orders = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const [selectedOrder, setSelectedOrder] = useState<ApiOrder | null>(null);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const { data: orders, isLoading, error } = useOrders();
+  const { data: selectedOrder, isLoading: isLoadingDetail } = useOrder(selectedOrderId || "");
   const updateOrder = useUpdateOrder();
 
   const handleOrderClick = (order: ApiOrder) => {
-    setSelectedOrder(order);
+    setSelectedOrderId(order._id);
   };
 
   const handleGoBack = () => {
-    setSelectedOrder(null);
+    setSelectedOrderId(null);
   };
 
   const handleUpdateStatus = (orderId: string, status: string) => {
@@ -75,41 +76,58 @@ const Orders = () => {
       { id: orderId, data: { status } },
       {
         onSuccess: () => {
-          toast({ title: "Order updated", description: `Status changed to ${status}` });
+          toast({ title: t("orderUpdated"), description: `${t("status")}: ${status}` });
         },
         onError: (err: any) => {
-          toast({ title: "Error", description: err.message, variant: "destructive" });
+          toast({ title: t("error"), description: err.message, variant: "destructive" });
         },
       }
     );
   };
 
   // Show order details view
-  if (selectedOrder) {
-    const items = (selectedOrder.items || []).map((item) => ({
-      name: item.item_name,
-      quantity: item.quantity,
-      priceEach: item.price,
-      total: item.total ?? item.price * item.quantity,
-    }));
+  if (selectedOrderId) {
+    if (isLoadingDetail) {
+      return (
+        <DashboardLayout>
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+          </div>
+        </DashboardLayout>
+      );
+    }
 
-    return (
-      <DashboardLayout>
-        <OrderDetails
-          order={{
-            id: selectedOrder._id,
-            orderNumber: selectedOrder.order_number || `#${selectedOrder._id.slice(-6)}`,
-            customerName: getCustomerName(selectedOrder),
-            orderDate: formatDate(selectedOrder.created_at),
-            items,
-            subtotal: selectedOrder.subtotal ?? items.reduce((s, i) => s + i.total, 0),
-            serviceFee: selectedOrder.service_fee ?? 0,
-            totalAmount: selectedOrder.total_amount ?? items.reduce((s, i) => s + i.total, 0),
-          }}
-          onGoBack={handleGoBack}
-        />
-      </DashboardLayout>
-    );
+    if (selectedOrder) {
+      const items = (selectedOrder.items || []).map((item) => ({
+        name: item.item_name || t("item"),
+        quantity: item.quantity,
+        priceEach: item.price,
+        total: item.total ?? item.price * item.quantity,
+      }));
+
+      const totalPrice = selectedOrder.total_price ?? selectedOrder.total_amount ?? items.reduce((s, i) => s + i.total, 0);
+
+      return (
+        <DashboardLayout>
+          <OrderDetails
+            order={{
+              id: selectedOrder._id,
+              orderNumber: selectedOrder.order_number || `#${selectedOrder._id.slice(-6)}`,
+              customerName: getCustomerName(selectedOrder),
+              orderDate: formatDate(selectedOrder.created_at || selectedOrder.createdAt),
+              items,
+              subtotal: selectedOrder.subtotal ?? totalPrice,
+              serviceFee: selectedOrder.service_fee ?? 0,
+              totalAmount: totalPrice,
+              status: selectedOrder.status,
+              currency: selectedOrder.currency || "USD",
+              source: selectedOrder.source,
+            }}
+            onGoBack={handleGoBack}
+          />
+        </DashboardLayout>
+      );
+    }
   }
 
   return (
@@ -159,9 +177,9 @@ const Orders = () => {
                       >
                         <td className="py-4 px-6 text-sm font-semibold text-foreground">{getCustomerName(order)}</td>
                         <td className="py-4 px-6 text-sm text-foreground font-semibold">{order.menu_name || "-"}</td>
-                        <td className="py-4 px-6 text-sm text-foreground font-semibold">{formatDate(order.created_at)}</td>
+                        <td className="py-4 px-6 text-sm text-foreground font-semibold">{formatDate(order.created_at || order.createdAt)}</td>
                         <td className="py-4 px-6 text-sm text-foreground font-semibold">
-                          ${(order.total_amount ?? 0).toFixed(2)}
+                          {(order.currency || "$")}{(order.total_price ?? order.total_amount ?? 0).toFixed(2)}
                         </td>
                         <td className="py-4 px-6">
                           <span
@@ -223,8 +241,10 @@ const Orders = () => {
                       </Badge>
                     </div>
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-muted-foreground">{formatDate(order.created_at)}</span>
-                      <span className="font-medium text-foreground">${(order.total_amount ?? 0).toFixed(2)}</span>
+                      <span className="text-muted-foreground">{formatDate(order.created_at || order.createdAt)}</span>
+                      <span className="font-medium text-foreground">
+                        {(order.currency || "$")}{(order.total_price ?? order.total_amount ?? 0).toFixed(2)}
+                      </span>
                     </div>
                     <div onClick={(e) => e.stopPropagation()}>
                       <DropdownMenu>

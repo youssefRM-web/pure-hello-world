@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import type { RestaurantData } from "@/lib/api";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   token: string | null;
-  user: Record<string, unknown> | null;
-  login: (token: string, user?: Record<string, unknown>) => void;
+  restaurant: RestaurantData | null;
+  login: (token: string, restaurant?: RestaurantData) => void;
   logout: () => void;
 }
 
@@ -13,17 +13,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem("auth_token"));
-  const [user, setUser] = useState<Record<string, unknown> | null>(() => {
+  const [restaurant, setRestaurant] = useState<RestaurantData | null>(() => {
     const stored = localStorage.getItem("restaurant_user");
     return stored ? JSON.parse(stored) : null;
   });
 
-  const login = (newToken: string, userData?: Record<string, unknown>) => {
+  const login = (newToken: string, restaurantData?: RestaurantData) => {
     localStorage.setItem("auth_token", newToken);
     setToken(newToken);
-    if (userData) {
-      localStorage.setItem("restaurant_user", JSON.stringify(userData));
-      setUser(userData);
+    if (restaurantData) {
+      localStorage.setItem("restaurant_user", JSON.stringify(restaurantData));
+      setRestaurant(restaurantData);
     }
   };
 
@@ -31,11 +31,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("auth_token");
     localStorage.removeItem("restaurant_user");
     setToken(null);
-    setUser(null);
+    setRestaurant(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!token, token, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated: !!token, token, restaurant, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

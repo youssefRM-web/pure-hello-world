@@ -2,6 +2,7 @@ import { Bell } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { MobileMenuButton } from "./Sidebar";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +19,10 @@ export function Header({ onMobileMenuClick }: HeaderProps) {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { language, setLanguage, t } = useLanguage();
+  const { restaurant } = useAuth();
+
+  const restaurantName = restaurant?.name || t("user");
+  const initials = restaurantName.charAt(0).toUpperCase();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -53,15 +58,15 @@ export function Header({ onMobileMenuClick }: HeaderProps) {
 
         {/* User Avatar */}
         <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-muted flex items-center justify-center overflow-hidden">
-          <span className="text-xs font-medium text-muted-foreground">U</span>
+          <span className="text-xs font-medium text-muted-foreground">{initials}</span>
         </div>
 
         {/* User Info */}
         <div className="hidden sm:block">
           <p className="text-sm font-medium text-foreground leading-tight">
-            {t("hello")},{t("user")}
+            {t("hello")}, {restaurantName}
           </p>
-          <p className="text-xs text-muted-foreground leading-tight">{t("germany")}</p>
+          <p className="text-xs text-muted-foreground leading-tight">{restaurant?.email || ""}</p>
         </div>
         
         {/* Notification dropdown */}
