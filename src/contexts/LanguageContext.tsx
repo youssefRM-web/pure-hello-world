@@ -82,9 +82,17 @@ const translations: Translations = {
   restaurantName: { en: "Restaurant Name", de: "Restaurantname" },
   address: { en: "Address", de: "Adresse" },
   contactEmail: { en: "Contact Email", de: "Kontakt-E-Mail" },
+  phone: { en: "Phone", de: "Telefon" },
+  enterPhone: { en: "Enter phone number", de: "Telefonnummer eingeben" },
+  foodType: { en: "Food Type", de: "Küchenart" },
+  foodTypePlaceholder: { en: "e.g. Italian, Mixed", de: "z.B. Italienisch, Gemischt" },
+  latitude: { en: "Latitude", de: "Breitengrad" },
+  longitude: { en: "Longitude", de: "Längengrad" },
   dontHaveAccount: { en: "Don't have an account?", de: "Haben Sie noch kein Konto?" },
   loginSuccess: { en: "Login successful", de: "Anmeldung erfolgreich" },
   loginFailed: { en: "Login failed", de: "Anmeldung fehlgeschlagen" },
+  signupSuccess: { en: "Account created successfully", de: "Konto erfolgreich erstellt" },
+  signupFailed: { en: "Registration failed", de: "Registrierung fehlgeschlagen" },
   error: { en: "Error", de: "Fehler" },
   
   // Orders Overview
