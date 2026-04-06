@@ -41,7 +41,7 @@ const SignUpForm = () => {
         password,
         foodType: foodTypes,
       });
-      login(response.access_token, response.restaurant as Record<string, unknown> | undefined);
+      login(response.access_token, response.restaurant as any);
       toast({ title: t("signupSuccess") });
       navigate("/");
     } catch (error: any) {
