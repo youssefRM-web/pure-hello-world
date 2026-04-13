@@ -11,20 +11,47 @@ export function useOnboardingHighlight(step: OnboardingStep) {
   useEffect(() => {
     if (activeGuide !== step) return;
 
-    const el = document.querySelector(`[data-onboarding-target="${step}"]`);
-    if (!el) return;
+    const selector = `[data-onboarding-target="${step}"]`;
+    let currentElement: HTMLElement | null = null;
 
-    el.classList.add('onboarding-highlight');
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-    const handleClick = () => {
-      el.classList.remove('onboarding-highlight');
+    const removeHighlight = () => {
+      if (!currentElement) return;
+      currentElement.classList.remove('onboarding-highlight');
+      currentElement.removeEventListener('click', removeHighlight);
+      currentElement = null;
     };
-    el.addEventListener('click', handleClick);
+
+    const applyHighlight = () => {
+      const nextElement = document.querySelector(selector);
+      if (!(nextElement instanceof HTMLElement)) return false;
+
+      if (currentElement === nextElement) return true;
+
+      removeHighlight();
+      currentElement = nextElement;
+      currentElement.classList.add('onboarding-highlight');
+      currentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      currentElement.addEventListener('click', removeHighlight, { once: true });
+      return true;
+    };
+
+    const observer = new MutationObserver(() => {
+      if (currentElement && !document.body.contains(currentElement)) {
+        currentElement = null;
+      }
+      applyHighlight();
+    });
+
+    applyHighlight();
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+    });
 
     return () => {
-      el.classList.remove('onboarding-highlight');
-      el.removeEventListener('click', handleClick);
+      observer.disconnect();
+      removeHighlight();
     };
   }, [activeGuide, step]);
 }

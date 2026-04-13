@@ -359,26 +359,16 @@ export function Dashboard() {
           </div>
 
           <div className="flex gap-3">
-            {/* <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white flex-1 sm:flex-none"
-          >
-            <option value="newest">Sort by: Newest</option>
-            <option value="oldest">Sort by: Oldest</option>
-            <option value="priority">Sort by: Priority</option>
-          </select> */}
-
-            {/* <Select>
-              <SelectTrigger className="w-32 sm:w-40 bg-background relative">
-                <SelectValue placeholder="newest" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">newest</SelectItem>
-                <SelectItem value="oldest">oldest</SelectItem>
-                <SelectItem value="priority">priority</SelectItem>
-              </SelectContent>
-            </Select> */}
+            <Button
+              onClick={() => {
+                setSelectedIssue(null);
+                setIsCreateModalOpen(true);
+              }}
+              className="text-sm flex items-center gap-1"
+              data-onboarding-target="create-report"
+            >
+              {t("common.create")}
+            </Button>
 
             <Button
               variant="outline"
