@@ -17,8 +17,14 @@ export function useOnboardingHighlight(step: OnboardingStep) {
     el.classList.add('onboarding-highlight');
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
+    const handleClick = () => {
+      el.classList.remove('onboarding-highlight');
+    };
+    el.addEventListener('click', handleClick);
+
     return () => {
       el.classList.remove('onboarding-highlight');
+      el.removeEventListener('click', handleClick);
     };
   }, [activeGuide, step]);
 }
