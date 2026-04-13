@@ -8,7 +8,7 @@ import { useSubscriptionStatus, useCurrentUserQuery } from "@/hooks/queries";
 import { SubscriptionPlansModal } from "../modals/SubscriptionPlansModal";
 import { ContactOrganizationModal } from "../modals/ContactOrganizationModal";
 import CreateOrganizationOnboardingModal from "../modals/CreateOrganizationOnboardingModal";
-import { OnboardingProvider, useOnboarding } from "@/contexts/OnboardingContext";
+import { useOnboarding } from "@/contexts/OnboardingContext";
 
 
 interface AppLayoutProps {
@@ -133,11 +133,7 @@ const AppLayoutInner = ({ children }: AppLayoutProps) => {
 };
 
 const AppLayout = ({ children }: AppLayoutProps) => {
-  return (
-    <OnboardingProvider>
-      <AppLayoutInner>{children}</AppLayoutInner>
-    </OnboardingProvider>
-  );
+  return <AppLayoutInner>{children}</AppLayoutInner>;
 };
 
 export default AppLayout;

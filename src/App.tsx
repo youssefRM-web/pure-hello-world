@@ -20,6 +20,7 @@ import { queryClient } from "@/lib/queryClient";
 import AppLayout from "./components/Layout/AppLayout";
 import { SearchProvider } from "./contexts/search-provider";
 import UnsubscribePage from "./pages/UnsubscribePage";
+import { OnboardingProvider } from "./contexts/OnboardingContext";
 
 // Lazy load components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -317,10 +318,12 @@ const App = () => (
                 <BuildingProvider>
                   <PermissionsProvider>
                     <NotificationBadgesProvider>
-                      <TooltipProvider>
-                        <Sonner />
-                        <AppRoutes />
-                      </TooltipProvider>
+                      <OnboardingProvider>
+                        <TooltipProvider>
+                          <Sonner />
+                          <AppRoutes />
+                        </TooltipProvider>
+                      </OnboardingProvider>
                     </NotificationBadgesProvider>
                   </PermissionsProvider>
                 </BuildingProvider>
