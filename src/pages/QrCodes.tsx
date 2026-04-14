@@ -39,7 +39,7 @@ import { formatDate } from "@/utils/dateUtils";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useOnboardingHighlight } from "@/hooks/useOnboardingHighlight";
 import { useOnboarding } from "@/contexts/OnboardingContext";
-import OnboardingGuideBanner from "@/components/Onboarding/OnboardingGuideBanner";
+
 
 interface QrCodeData {
   _id: string;
@@ -409,7 +409,7 @@ const QrCodes = () => {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <OnboardingGuideBanner step="generate-qr" />
+      
       {/* Fixed Header Section */}
       <div className="flex-shrink-0 p-4 lg:p-6 pb-0 space-y-4 sm:space-y-6">
       {/* Header */}
