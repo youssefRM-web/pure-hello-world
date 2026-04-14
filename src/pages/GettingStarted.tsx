@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useOnboarding, type OnboardingStep, STEP_ROUTES } from '@/contexts/OnboardingContext';
@@ -9,9 +9,15 @@ import { Rocket, Check, Play, HelpCircle, RotateCcw } from 'lucide-react';
 const GettingStarted: React.FC = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const { steps, completedCount, totalSteps, activeGuide, startGuide, completeStep, stopGuide, skipAllSteps } = useOnboarding();
+  const { steps, completedCount, totalSteps, activeGuide, startGuide, completeStep, skipAllSteps, isOnboardingVisible } = useOnboarding();
 
   const progressPercent = totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
+
+  useEffect(() => {
+    if (!isOnboardingVisible) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isOnboardingVisible, navigate]);
 
   const handleStartGuide = (stepId: OnboardingStep) => {
     startGuide(stepId);
@@ -26,6 +32,7 @@ const GettingStarted: React.FC = () => {
 
   const handleRestartGuide = (stepId: OnboardingStep) => {
     startGuide(stepId);
+    navigate(STEP_ROUTES[stepId]);
   };
 
   const stepTranslations: Record<OnboardingStep, { title: string; description: string }> = {

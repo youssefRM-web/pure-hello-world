@@ -39,6 +39,7 @@ import { formatDate } from "@/utils/dateUtils";
 import { getPriorityConfig } from "@/components/BoardGroup/boardUtils";
 import { useOnboardingHighlight } from "@/hooks/useOnboardingHighlight";
 import { useOnboarding } from "@/contexts/OnboardingContext";
+import OnboardingGuideBanner from "@/components/Onboarding/OnboardingGuideBanner";
 
 const Tasks = () => {
   const { t } = useLanguage();
@@ -277,6 +278,7 @@ const Tasks = () => {
   if (isLoading) {
     return (
       <div className="flex-1 bg-background">
+        <OnboardingGuideBanner step="create-recurring-task" />
         <PageLoadingSkeleton variant="table" />
       </div>
     );
@@ -284,6 +286,7 @@ const Tasks = () => {
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden">
+      <OnboardingGuideBanner step="create-recurring-task" />
       {/* Fixed Header Section */}
       {/* Fixed Header Section */}
       <div className="flex-shrink-0 p-4 lg:p-6 pb-0">
