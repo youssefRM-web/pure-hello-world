@@ -40,6 +40,7 @@ import ImportSpacesModal from "@/components/SpaceModals/ImportSpacesModal";
 import { useBuildingsQuery } from "@/hooks/queries/useBuildingsQuery";
 import { useOnboardingHighlight } from "@/hooks/useOnboardingHighlight";
 import { useOnboarding } from "@/contexts/OnboardingContext";
+import OnboardingGuideBanner from "@/components/Onboarding/OnboardingGuideBanner";
 
 const Spaces = () => {
   const { t } = useLanguage();
@@ -166,6 +167,7 @@ const Spaces = () => {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
+      <OnboardingGuideBanner step="create-room" />
       {/* Fixed Header Section */}
       {/* Fixed Header Section */}
       <div className="flex-shrink-0 p-4 lg:p-6 pb-0">
