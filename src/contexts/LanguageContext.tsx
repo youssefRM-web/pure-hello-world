@@ -3035,6 +3035,15 @@ const translations = {
         recurringTask: "🎉 You've created your first recurring task!",
         allDone: "🎉 All steps completed! You're all set.",
       },
+      tooltips: {
+        building: "👆 Click here to create your first building",
+        room: "👆 Click here to create your first space",
+        asset: "👆 Click here to create your first asset",
+        qr: "👆 Click here to generate your first QR code",
+        report: "👆 Click here to create your first report",
+        document: "👆 Click here to upload your first document",
+        recurringTask: "👆 Click here to create your first recurring task",
+      },
     },
     guide: {
       nextStep: "Next step",
@@ -6067,6 +6076,15 @@ const translations = {
         document: "🎉 Sie haben Ihr erstes Dokument hochgeladen!",
         recurringTask: "🎉 Sie haben Ihre erste wiederkehrende Aufgabe erstellt!",
         allDone: "🎉 Alle Schritte abgeschlossen! Sie sind startklar.",
+      },
+      tooltips: {
+        building: "👆 Klicken Sie hier, um Ihr erstes Gebäude zu erstellen",
+        room: "👆 Klicken Sie hier, um Ihren ersten Raum zu erstellen",
+        asset: "👆 Klicken Sie hier, um Ihre erste Anlage zu erstellen",
+        qr: "👆 Klicken Sie hier, um Ihren ersten QR-Code zu generieren",
+        report: "👆 Klicken Sie hier, um Ihre erste Meldung zu erstellen",
+        document: "👆 Klicken Sie hier, um Ihr erstes Dokument hochzuladen",
+        recurringTask: "👆 Klicken Sie hier, um Ihre erste wiederkehrende Aufgabe zu erstellen",
       },
     },
     guide: {

@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useOnboarding, type OnboardingStep } from '@/contexts/OnboardingContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-const TOOLTIP_MESSAGES: Record<OnboardingStep, string> = {
-  'create-building': '👆 Click here to create your first building',
-  'create-room': '👆 Click here to create your first space',
-  'create-asset': '👆 Click here to create your first asset',
-  'generate-qr': '👆 Click here to generate your first QR code',
-  'create-report': '👆 Click here to create your first report',
-  'upload-document': '👆 Click here to upload your first document',
-  'create-recurring-task': '👆 Click here to create your first recurring task',
+const TOOLTIP_KEYS: Record<OnboardingStep, string> = {
+  'create-building': 'gettingStarted.tooltips.building',
+  'create-room': 'gettingStarted.tooltips.room',
+  'create-asset': 'gettingStarted.tooltips.asset',
+  'generate-qr': 'gettingStarted.tooltips.qr',
+  'create-report': 'gettingStarted.tooltips.report',
+  'upload-document': 'gettingStarted.tooltips.document',
+  'create-recurring-task': 'gettingStarted.tooltips.recurringTask',
 };
 
 /**
@@ -17,6 +18,7 @@ const TOOLTIP_MESSAGES: Record<OnboardingStep, string> = {
  */
 export function useOnboardingHighlight(step: OnboardingStep) {
   const { activeGuide } = useOnboarding();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (activeGuide !== step) return;
@@ -46,7 +48,7 @@ export function useOnboardingHighlight(step: OnboardingStep) {
 
       tooltipEl = document.createElement('div');
       tooltipEl.className = 'onboarding-tooltip';
-      tooltipEl.textContent = TOOLTIP_MESSAGES[step];
+      tooltipEl.textContent = t(TOOLTIP_KEYS[step]);
       document.body.appendChild(tooltipEl);
       positionTooltip();
     };
@@ -111,5 +113,5 @@ export function useOnboardingHighlight(step: OnboardingStep) {
       window.removeEventListener('resize', handleReposition);
       removeHighlight();
     };
-  }, [activeGuide, step]);
+  }, [activeGuide, step, t]);
 }
