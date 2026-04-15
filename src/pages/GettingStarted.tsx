@@ -211,7 +211,7 @@ const GettingStarted: React.FC = () => {
               <Button
                 variant="default"
                 className="w-full mt-4"
-                onClick={skipAllSteps}
+                onClick={() => { skipAllSteps(); navigate('/dashboard', { replace: true }); }}
               >
                 {t('gettingStarted.skipAll')}
               </Button>
