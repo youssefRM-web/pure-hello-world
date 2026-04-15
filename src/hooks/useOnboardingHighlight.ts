@@ -24,6 +24,7 @@ export function useOnboardingHighlight(step: OnboardingStep) {
     const selector = `[data-onboarding-target="${step}"]`;
     let currentElement: HTMLElement | null = null;
     let tooltipEl: HTMLDivElement | null = null;
+    let dismissed = false;
 
     const removeTooltip = () => {
       if (tooltipEl) {
@@ -41,7 +42,7 @@ export function useOnboardingHighlight(step: OnboardingStep) {
 
     const createTooltip = () => {
       removeTooltip();
-      if (!currentElement) return;
+      if (!currentElement || dismissed) return;
 
       tooltipEl = document.createElement('div');
       tooltipEl.className = 'onboarding-tooltip';
@@ -51,14 +52,17 @@ export function useOnboardingHighlight(step: OnboardingStep) {
     };
 
     const removeHighlight = () => {
-      if (!currentElement) return;
-      currentElement.classList.remove('onboarding-highlight');
-      currentElement.removeEventListener('click', removeHighlight);
-      currentElement = null;
+      dismissed = true;
+      if (currentElement) {
+        currentElement.classList.remove('onboarding-highlight');
+        currentElement.removeEventListener('click', removeHighlight);
+        currentElement = null;
+      }
       removeTooltip();
     };
 
     const applyHighlight = () => {
+      if (dismissed) return false;
       const nextElement = document.querySelector(selector);
       if (!(nextElement instanceof HTMLElement)) return false;
 
@@ -67,18 +71,21 @@ export function useOnboardingHighlight(step: OnboardingStep) {
         return true;
       }
 
-      removeHighlight();
+      if (currentElement) {
+        currentElement.classList.remove('onboarding-highlight');
+        currentElement.removeEventListener('click', removeHighlight);
+      }
       currentElement = nextElement;
       currentElement.classList.add('onboarding-highlight');
       currentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       currentElement.addEventListener('click', removeHighlight, { once: true });
 
-      // Create tooltip after a short delay so scroll completes
       setTimeout(createTooltip, 400);
       return true;
     };
 
     const observer = new MutationObserver(() => {
+      if (dismissed) return;
       if (currentElement && !document.body.contains(currentElement)) {
         currentElement = null;
         removeTooltip();
