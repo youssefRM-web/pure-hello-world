@@ -40,7 +40,7 @@ export function deleteRestaurant(id: string): Promise<void> {
   return apiRequest<void>(`/restaurants/${id}`, { method: "DELETE" });
 }
 
-export async function uploadMenuImages(files: File[]): Promise<string[]> {
+export async function uploadMenuImages(files: File[]): Promise<any> {
   const token = localStorage.getItem("auth_token");
   const formData = new FormData();
   files.forEach((file) => formData.append("files", file));

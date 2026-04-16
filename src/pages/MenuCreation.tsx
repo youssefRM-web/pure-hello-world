@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { AddMenuItemModal } from "@/components/menu/AddMenuItemModal";
+import type { MenuPrefillData } from "@/components/menu/AddMenuItemModal";
 import { EditMenuModal } from "@/components/menu/EditMenuModal";
 import { DeleteMenuDialog } from "@/components/menu/DeleteMenuDialog";
 import { MenuUploadView } from "@/components/menu/MenuUploadView";
@@ -22,15 +23,22 @@ const MenuCreation = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editMenu, setEditMenu] = useState<MenuData | null>(null);
   const [deleteMenu, setDeleteMenu] = useState<{ id: string; name: string } | null>(null);
+  const [prefillData, setPrefillData] = useState<MenuPrefillData | null>(null);
 
   const rawMenus = restaurant?.menus ?? [];
   const menuId = typeof rawMenus[0] === "string" ? rawMenus[0] : (rawMenus[0] as any)?._id;
   const { data: menuData, isLoading: menuLoading } = useMenu(menuId);
 
+  const handleMenuDataExtracted = (data: MenuPrefillData) => {
+    setPrefillData(data);
+    setShowUploadMenu(false);
+    setShowAddModal(true);
+  };
+
   if (showUploadMenu) {
     return (
       <DashboardLayout>
-        <MenuUploadView onGoBack={() => setShowUploadMenu(false)} />
+        <MenuUploadView onGoBack={() => setShowUploadMenu(false)} onMenuDataExtracted={handleMenuDataExtracted} />
       </DashboardLayout>
     );
   }
@@ -144,7 +152,7 @@ const MenuCreation = () => {
         )}
       </div>
 
-      <AddMenuItemModal open={showAddModal} onOpenChange={setShowAddModal} />
+      <AddMenuItemModal open={showAddModal} onOpenChange={(o) => { setShowAddModal(o); if (!o) setPrefillData(null); }} initialData={prefillData} />
       <EditMenuModal open={!!editMenu} onOpenChange={(o) => !o && setEditMenu(null)} menuData={editMenu} />
       <DeleteMenuDialog
         open={!!deleteMenu}
