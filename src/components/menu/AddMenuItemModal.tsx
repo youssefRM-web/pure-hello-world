@@ -36,10 +36,17 @@ interface SupplementCategory {
   items: CategoryItem[];
 }
 
+export interface MenuPrefillData {
+  menu_name?: string;
+  currency?: string;
+  categories?: { category_name: string; items: { name: string; description: string; price: number; available: boolean }[] }[];
+}
+
 interface AddMenuItemModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSave?: (data: any) => void;
+  initialData?: MenuPrefillData | null;
 }
 
 const emptyItem = (): CategoryItem => ({
@@ -49,7 +56,7 @@ const emptyItem = (): CategoryItem => ({
 const emptyCategory = (): Category => ({ category_name: "", items: [emptyItem()] });
 const emptySupCategory = (): SupplementCategory => ({ category_name: "", items: [emptyItem()] });
 
-export function AddMenuItemModal({ open, onOpenChange, onSave }: AddMenuItemModalProps) {
+export function AddMenuItemModal({ open, onOpenChange, onSave, initialData }: AddMenuItemModalProps) {
   const { t } = useLanguage();
   const { restaurant } = useAuth();
   const createMenu = useCreateMenu(restaurant?._id);
@@ -61,6 +68,28 @@ export function AddMenuItemModal({ open, onOpenChange, onSave }: AddMenuItemModa
   const [offerTitle, setOfferTitle] = useState("");
   const [offerDescription, setOfferDescription] = useState("");
   const [offerActive, setOfferActive] = useState(false);
+
+  // Pre-fill from initialData when modal opens with data
+  const [lastAppliedData, setLastAppliedData] = useState<MenuPrefillData | null>(null);
+  if (open && initialData && initialData !== lastAppliedData) {
+    setLastAppliedData(initialData);
+    if (initialData.menu_name) setMenuName(initialData.menu_name);
+    if (initialData.currency) setCurrency(initialData.currency);
+    if (initialData.categories && initialData.categories.length > 0) {
+      setCategories(initialData.categories.map(cat => ({
+        category_name: cat.category_name,
+        items: cat.items.map(it => ({
+          item_name: it.name,
+          description: it.description || "",
+          ingredients: "",
+          price: String(it.price || ""),
+          calories: "",
+          portion_size: "",
+          available: it.available ?? true,
+        })),
+      })));
+    }
+  }
 
   // Category helpers
   const addCategory = () => setCategories(p => [...p, emptyCategory()]);
