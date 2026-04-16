@@ -16,9 +16,10 @@ interface UploadFile {
 
 interface MenuUploadViewProps {
   onGoBack: () => void;
+  onMenuDataExtracted?: (data: any) => void;
 }
 
-export const MenuUploadView = ({ onGoBack }: MenuUploadViewProps) => {
+export const MenuUploadView = ({ onGoBack, onMenuDataExtracted }: MenuUploadViewProps) => {
   const { t } = useLanguage();
   const [files, setFiles] = useState<UploadFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -65,6 +66,25 @@ export const MenuUploadView = ({ onGoBack }: MenuUploadViewProps) => {
       ));
       toast.success(t("uploadSuccess"));
       console.log("Upload result:", result);
+
+      // Extract menu data and pass it back
+      const processed = result?.processed_menu?.results?.[0]?.data?.normalized_json;
+      if (processed && onMenuDataExtracted) {
+        const prefill = {
+          menu_name: processed.name || "",
+          currency: processed.menus?.[0]?.items?.[0]?.currency || "EUR",
+          categories: (processed.menus || []).map((cat: any) => ({
+            category_name: cat.name || "",
+            items: (cat.items || []).map((item: any) => ({
+              name: item.name || "",
+              description: item.description || "",
+              price: item.price || 0,
+              available: item.available ?? true,
+            })),
+          })),
+        };
+        onMenuDataExtracted(prefill);
+      }
     } catch (err) {
       setFiles((prev) => prev.map((f) =>
         pendingFiles.find((p) => p.id === f.id) ? { ...f, status: "error" as const, progress: 0 } : f
