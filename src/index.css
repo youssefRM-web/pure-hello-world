@@ -60,6 +60,15 @@
     --amber: 36 100% 50%;
     --cream: 40 33% 96%;
     --orange-light: 24 100% 95%;
+
+    /* Admin theme — distinct dark navy with cyan accent */
+    --admin-background: 220 25% 97%;
+    --admin-card: 0 0% 100%;
+    --admin-border: 220 15% 88%;
+    --admin-sidebar: 222 47% 13%;
+    --admin-sidebar-foreground: 210 20% 92%;
+    --admin-accent: 199 89% 48%;
+    --admin-accent-foreground: 0 0% 100%;
   }
 
   * {
