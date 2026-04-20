@@ -28,6 +28,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useContactSales } from "../contact-sales-provider";
+import ContactSalesCard from "./ContactSalesCard";
 
 const SubscriptionTab = () => {
   const { t, language } = useLanguage();
