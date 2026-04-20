@@ -393,6 +393,19 @@ const SubscriptionTab = () => {
     );
   }
 
+  // ─── NO PLAN / EXPIRED TRIAL → CONTACT SALES CARD ──────────────────────
+  // If the user has no individual plans assigned and no active subscription,
+  // show the contact sales card (mirroring the homepage enterprise card)
+  // instead of the generic plans list.
+  const hasActiveSubscription = !!organization?.currentPlan;
+  const isTrialExpired = subscriptionStatus?.status === "expired";
+  const showContactSalesCard =
+    !hasIndividualPlans && !hasActiveSubscription && (isTrialExpired || !isTrial);
+
+  if (showContactSalesCard) {
+    return <ContactSalesCard isExpired={isTrialExpired} />;
+  }
+
   // ─── GENERIC PLANS VIEW (existing behavior) ─────────────────────────────
   if (!plans || plans.length === 0) {
     return (
