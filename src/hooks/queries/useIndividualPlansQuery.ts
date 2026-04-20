@@ -39,7 +39,7 @@ export const useMyIndividualPlansQuery = (organizationId: string | undefined) =>
     queryKey: ["myIndividualPlans", organizationId],
     queryFn: async () => {
       const response = await apiService.get<IndividualPlan[]>(
-        `/plans/individual/my/${organizationId}`
+        `/plans/organization/${organizationId}`
       );
       return response.data;
     },
