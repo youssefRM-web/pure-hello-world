@@ -5,8 +5,9 @@ import TopBar from "@/components/Layout/TopBar";
 import { useReferenceData } from "@/hooks/useReferenceData";
 
 import { useSubscriptionStatus, useCurrentUserQuery } from "@/hooks/queries";
-import { SubscriptionPlansModal } from "../modals/SubscriptionPlansModal";
 import { ContactOrganizationModal } from "../modals/ContactOrganizationModal";
+import ContactSalesCard from "../OrganisationTabs/ContactSalesCard";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CreateOrganizationOnboardingModal from "../modals/CreateOrganizationOnboardingModal";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 
@@ -34,7 +35,7 @@ const AppLayoutInner = ({ children }: AppLayoutProps) => {
   };
   const { data: subscriptionStatus, isLoading: isLoadingSubscription } =
     useSubscriptionStatus();
-  const [showPlansModal, setShowPlansModal] = useState(false);
+  const [showManagerExpiredCard, setShowManagerExpiredCard] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
   const { data: currentUser } = useCurrentUserQuery();
   const { isOnboardingVisible } = useOnboarding();
@@ -72,11 +73,11 @@ const AppLayoutInner = ({ children }: AppLayoutProps) => {
   React.useEffect(() => {
     if (isExpired) {
       if (isManager) {
-        setShowPlansModal(true);
+        setShowManagerExpiredCard(true);
         setShowContactModal(false);
       } else {
         setShowContactModal(true);
-        setShowPlansModal(false);
+        setShowManagerExpiredCard(false);
       }
     }
   }, [isExpired, isManager]);
@@ -106,12 +107,15 @@ const AppLayoutInner = ({ children }: AppLayoutProps) => {
           />
         )}
 
-        {/* Subscription Plans Modal - for managers */}
-        <SubscriptionPlansModal
-          isOpen={showPlansModal}
-          onClose={() => !isExpired && setShowPlansModal(false)}
-          isExpired={isExpired}
-        />
+        {/* Contact Sales Card - for managers with expired trial */}
+        <Dialog
+          open={showManagerExpiredCard}
+          onOpenChange={(open) => !isExpired && setShowManagerExpiredCard(open)}
+        >
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-0 bg-transparent border-0 shadow-none">
+            <ContactSalesCard isExpired={isExpired} />
+          </DialogContent>
+        </Dialog>
 
         {/* Contact Organization Modal - for members */}
         <ContactOrganizationModal
