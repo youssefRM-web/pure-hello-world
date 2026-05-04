@@ -38,12 +38,66 @@ interface AddUserModalProps {
   onSave: (userData: any) => void;
 }
 
+const defaultPermissions = {
+  issues: { accessNewIssues: false, acceptDeclineNewIssues: false },
+  board: {
+    accessTicketBoard: false,
+    createTickets: false,
+    manageOwnTickets: false,
+    editTimeLog: false,
+    editMaterialLog: false,
+  },
+  tasks: {
+    accessTasks: false,
+    createTasks: false,
+    updateTasks: false,
+    deleteTasks: false,
+  },
+  spaces: {
+    accessSpaces: false,
+    createSpaces: false,
+    updateSpaces: false,
+    deleteSpaces: false,
+  },
+  assets: {
+    accessAssets: false,
+    createAssets: false,
+    updateAssets: false,
+    deleteAssets: false,
+  },
+  documents: {
+    accessDocuments: false,
+    createDocuments: false,
+    updateDocuments: false,
+    deleteDocuments: false,
+  },
+  insights: { accessInsights: false },
+  qrCodes: { accessQRCodes: false, createQRCodes: false },
+  organisation: {
+    accessOrganisation: false,
+    manageSubscription: false,
+    manageBillingPayment: false,
+    manageInvoices: false,
+    manageUsers: false,
+    manageSettings: false,
+  },
+  buildings: {
+    manageBuildings: false,
+    manageCategories: false,
+    manageReportFlow: false,
+  },
+};
+
 const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
   const { t } = useLanguage();
   const { selectedBuilding } = useBuilding();
   const [emailAddresses, setEmailAddresses] = useState<string[]>([]);
   const [currentEmail, setCurrentEmail] = useState("");
   const [selectedBuildingID, setSelectedBuildingID] = useState<string[]>([]);
+  const [activeBuildingId, setActiveBuildingId] = useState<string | null>(null);
+  const [buildingPermissionsMap, setBuildingPermissionsMap] = useState<
+    Record<string, typeof defaultPermissions>
+  >({});
   const [isLoading, setIsLoading] = useState(false);
   const { buildings } = useReferenceData();
   const { data: currentUser } = useCurrentUserQuery();
@@ -51,11 +105,23 @@ const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
   const { data: plans = [] } = usePlansQuery();
   const queryClient = useQueryClient();
 
+  // Sync displayed permissions whenever the active building changes
+  useEffect(() => {
+    if (activeBuildingId && buildingPermissionsMap[activeBuildingId]) {
+      setPermissions(buildingPermissionsMap[activeBuildingId] as any);
+    } else if (activeBuildingId) {
+      setPermissions(defaultPermissions as any);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeBuildingId]);
+
   useEffect(() => {
     if (!isOpen) {
       setEmailAddresses([]);
       setCurrentEmail("");
       setSelectedBuildingID([]);
+      setActiveBuildingId(null);
+      setBuildingPermissionsMap({});
       setPermissions({
         issues: { accessNewIssues: false, acceptDeclineNewIssues: false },
         board: {
@@ -163,6 +229,18 @@ const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
     permission: string,
     value: boolean,
   ) => {
+    if (!activeBuildingId) return;
+    setBuildingPermissionsMap((prev) => {
+      const current = prev[activeBuildingId] || permissions;
+      const updated = {
+        ...current,
+        [category]: {
+          ...(current as any)[category],
+          [permission]: value,
+        },
+      };
+      return { ...prev, [activeBuildingId]: updated };
+    });
     setPermissions((prev) => ({
       ...prev,
       [category]: {
@@ -173,15 +251,21 @@ const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
   };
 
   const handleSelectAll = (category: string) => {
+    if (!activeBuildingId) return;
     const categoryPerms = permissions[category as keyof typeof permissions];
     const allEnabled = Object.values(categoryPerms).every((val) => val);
-    setPermissions((prev) => ({
-      ...prev,
-      [category]: Object.keys(categoryPerms).reduce(
-        (acc, key) => ({ ...acc, [key]: !allEnabled }),
-        {},
-      ),
-    }));
+    const newCategory = Object.keys(categoryPerms).reduce(
+      (acc, key) => ({ ...acc, [key]: !allEnabled }),
+      {} as any,
+    );
+    setPermissions((prev) => ({ ...prev, [category]: newCategory }));
+    setBuildingPermissionsMap((prev) => {
+      const current = prev[activeBuildingId] || permissions;
+      return {
+        ...prev,
+        [activeBuildingId]: { ...current, [category]: newCategory },
+      };
+    });
   };
 
   const handleAddEmail = () => {
@@ -255,7 +339,7 @@ const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
 
     const buildingPermissions = resolvedBuildingIds.map((bId) => ({
       buildingId: bId,
-      permissions: permissions,
+      permissions: buildingPermissionsMap[bId] || defaultPermissions,
     }));
 
     const userData = {
@@ -444,32 +528,67 @@ const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
               {selectedBuildingID.length > 0 && (
                 <div className="flex flex-wrap gap-2 p-3 border rounded-lg bg-muted/20">
                   {selectedBuildingID.includes("all") ? (
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-sm font-medium">
-                      <span>{t("organisation.allBuildings")}</span>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedBuildingID([])}
-                        className="hover:bg-destructive/10 rounded-full p-0.5"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
+                    buildings
+                      .filter((b) => !b.archived)
+                      .map((building) => (
+                        <button
+                          type="button"
+                          key={building._id}
+                          onClick={() => setActiveBuildingId(building._id)}
+                          className={`flex items-center gap-2 px-3 py-1.5 border rounded-full text-sm transition-colors ${
+                            activeBuildingId === building._id
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-background hover:bg-accent"
+                          }`}
+                        >
+                          <span>{building.label}</span>
+                        </button>
+                      ))
+                      .concat(
+                        <button
+                          type="button"
+                          key="__clear_all"
+                          onClick={() => {
+                            setSelectedBuildingID([]);
+                            setActiveBuildingId(null);
+                            setBuildingPermissionsMap({});
+                          }}
+                          className="flex items-center gap-2 px-3 py-1.5 bg-destructive/10 border border-destructive/20 rounded-full text-sm"
+                        >
+                          <X className="w-3 h-3" />
+                          <span>{t("organisation.clear") || "Clear"}</span>
+                        </button> as any,
+                      )
                   ) : (
                     selectedBuildingID.map((id) => {
                       const building = buildings.find((b) => b._id === id);
                       return building ? (
                         <div
                           key={id}
-                          className="flex items-center gap-2 px-3 py-1.5 bg-background border rounded-full text-sm"
+                          onClick={() => setActiveBuildingId(id)}
+                          className={`flex items-center gap-2 px-3 py-1.5 border rounded-full text-sm cursor-pointer transition-colors ${
+                            activeBuildingId === id
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-background hover:bg-accent"
+                          }`}
                         >
                           <span>{building.label}</span>
                           <button
                             type="button"
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.stopPropagation();
                               setSelectedBuildingID((prev) =>
                                 prev.filter((bid) => bid !== id),
-                              )
-                            }
+                              );
+                              setBuildingPermissionsMap((prev) => {
+                                const next = { ...prev };
+                                delete next[id];
+                                return next;
+                              });
+                              if (activeBuildingId === id) {
+                                setActiveBuildingId(null);
+                              }
+                            }}
                             className="hover:bg-destructive/10 rounded-full p-0.5"
                           >
                             <X className="w-3 h-3" />
@@ -485,14 +604,36 @@ const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
                 value=""
                 onValueChange={(value) => {
                   if (value === "all") {
+                    const allIds = buildings
+                      .filter((b) => !b.archived)
+                      .map((b) => b._id);
                     setSelectedBuildingID(["all"]);
+                    setBuildingPermissionsMap((prev) => {
+                      const next = { ...prev };
+                      allIds.forEach((id) => {
+                        if (!next[id]) next[id] = defaultPermissions;
+                      });
+                      return next;
+                    });
+                    setActiveBuildingId(allIds[0] || null);
                   } else if (
                     !selectedBuildingID.includes(value) &&
                     !selectedBuildingID.includes("all")
                   ) {
                     setSelectedBuildingID((prev) => [...prev, value]);
+                    setBuildingPermissionsMap((prev) => ({
+                      ...prev,
+                      [value]: prev[value] || defaultPermissions,
+                    }));
+                    setActiveBuildingId(value);
                   }
                 }}
+                disabled={
+                  selectedBuildingID.includes("all") ||
+                  (buildings.filter((b) => !b.archived).length > 0 &&
+                    selectedBuildingID.length >=
+                      buildings.filter((b) => !b.archived).length)
+                }
               >
                 <SelectTrigger className="w-full max-w-md h-11">
                   <SelectValue
@@ -500,7 +641,16 @@ const AddUserModal = ({ isOpen, onClose, onSave }: AddUserModalProps) => {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all" className="font-medium">
+                  <SelectItem
+                    value="all"
+                    className="font-medium"
+                    disabled={
+                      buildings.filter((b) => !b.archived).length > 0 &&
+                      selectedBuildingID.length ===
+                        buildings.filter((b) => !b.archived).length &&
+                      !selectedBuildingID.includes("all")
+                    }
+                  >
                     {t("organisation.allBuildings")}
                   </SelectItem>
                   {buildings

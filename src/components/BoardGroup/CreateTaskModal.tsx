@@ -490,9 +490,9 @@ export function CreateTaskModal({
                           : ""
                         }`}
                     >
-                      <div className="flex items-center gap-2 capitalize">
+                      <div className="flex items-center gap-2">
                         <Building className="h-4 w-4 text-muted-foreground shrink-0" />
-                        <SelectValue placeholder={t("board.selectBuilding")} className="capitalize"/>
+                        <SelectValue placeholder={t("board.selectBuilding")} />
                       </div>
                     </SelectTrigger>
                     <SelectContent>

@@ -308,7 +308,7 @@ const Tasks = () => {
               size="lg"
               onClick={() => setIsCreateModalOpen(true)}
               className="flex items-center gap-1"
-              data-onboarding-target="create-recurring-task"
+              data-onboarding-target="create-recurring-task-step2"
             >
               <Plus className="h-4 w-4" />
               {t("tasks.newTask")}

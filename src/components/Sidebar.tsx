@@ -304,6 +304,16 @@ export function Sidebar({
     handleLinkClick();
   };
 
+  // Map sidebar paths to the onboarding step they unlock (used as step1 target).
+  const ONBOARDING_NAV_MAP: Record<string, string> = {
+    "/dashboard/": "create-report-step1",
+    "/dashboard/spaces/": "create-room-step1",
+    "/dashboard/assets/": "create-asset-step1",
+    "/dashboard/qr-codes/": "generate-qr-step1",
+    "/dashboard/documents/": "upload-document-step1",
+    "/dashboard/tasks/": "create-recurring-task-step1",
+  };
+
   const NavItem = ({
     item,
     index,
@@ -312,10 +322,12 @@ export function Sidebar({
     index: number;
   }) => {
     const active = isActive(item.path);
+    const onboardingTarget = ONBOARDING_NAV_MAP[item.path];
     const linkEl = (
       <Link
         to={item.path}
         onClick={handleLinkClick}
+        data-onboarding-target={onboardingTarget}
         className={cn(
           "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 group relative",
           isCollapsed ? "justify-center" : "",
@@ -594,6 +606,7 @@ export function Sidebar({
                 <div className="p-3 border-t border-border shrink-0">
                     <Link
                       to="/dashboard/building"
+                      data-onboarding-target="create-building-step1"
                       className="text-blue-600 bg-blue-50 rounded-md text-sm font-medium py-2 px-3 block text-center transition-all duration-200 hover:text-blue-700"
                       onClick={() => setIsBuildingsOpen(false)}
                     >

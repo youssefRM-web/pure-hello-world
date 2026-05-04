@@ -188,7 +188,7 @@ const Spaces = () => {
                 size="lg"
                 onClick={handleCreateClick}
                 className="flex items-center gap-1"
-                data-onboarding-target="create-room"
+                data-onboarding-target="create-room-step2"
               >
                 <Plus className="h-4 w-4" />
                 {t("common.create")}

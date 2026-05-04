@@ -136,7 +136,7 @@ const Insights = () => {
   React.useEffect(() => {
     refetchInsights();
   }, [refetchInsights]);
-
+  
   // Calculate statistics from comprehensive API data
   const calculateStats = () => {
     if (!insightsData) {

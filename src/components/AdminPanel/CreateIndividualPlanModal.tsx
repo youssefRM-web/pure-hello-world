@@ -50,16 +50,23 @@ export default function CreateIndividualPlanModal({
     editPlan?.billingCycle || ""
   );
   const [displayPrice, setDisplayPrice] = useState(
-    editPlan?.displayPrice?.toString() || ""
+    editPlan?.monthlyDisplayPrice?.toString() || ""
   );
   const [maxBuildings, setMaxBuildings] = useState(
     editPlan?.maxBuildings?.toString() || ""
   );
 
+  const [planName, setPlanName] = useState(
+    editPlan?.planName?.toString() || ""
+  );
+  const [planDescription, setPlanDescription] = useState(
+    editPlan?.planDescription?.toString() || ""
+  );
+
   const availableCycles = (["monthly", "yearly"] as const).filter(
     (c) => !usedCycles.includes(c)
   );
-
+console.log(customerId)
   const handleSubmit = async () => {
     if (!billingCycle || !displayPrice || !maxBuildings) return;
 
@@ -70,14 +77,16 @@ export default function CreateIndividualPlanModal({
         monthlyDisplayPrice: parseFloat(displayPrice),
         billingCycle,
         maxBuildings: parseInt(maxBuildings, 10),
-        isActive: true
+        isActive: true,
+        name : planName,
+        description : planDescription
       };
 
       if (editPlan) {
         await apiService.patch(`/plans/individual/${editPlan._id}`, payload);
         toast({ title: "Plan updated successfully", variant: "success" as any });
       } else {
-        await apiService.post("/plans/organization/69d98324d79756b0e9407fc3", payload);
+        await apiService.post(`/plans/organization/${customerId}`, payload);
         toast({ title: "Plan created successfully", variant: "success" as any });
       }
 
@@ -113,6 +122,27 @@ export default function CreateIndividualPlanModal({
               : "Create a new individual pricing plan for this customer."}
           </DialogDescription>
         </DialogHeader>
+
+        <div className="space-y-2">
+            <Label>Plan name *</Label>
+            <Input
+              type="text"
+              placeholder="Starter plan"
+              value={planName}
+              onChange={(e) => setPlanName(e.target.value)}
+            />
+           
+          </div>
+        <div className="space-y-2">
+            <Label>Plan description *</Label>
+            <Input
+              type="text"
+              placeholder="Starter plan description"
+              value={planDescription}
+              onChange={(e) => setPlanDescription(e.target.value)}
+            />
+           
+          </div>
 
         <div className="space-y-4 py-2">
           <div className="space-y-2">

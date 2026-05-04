@@ -29,6 +29,7 @@ import CreateIndividualPlanModal from "./CreateIndividualPlanModal";
 import { apiService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { format } from "date-fns";
 
 interface PricingPlansSectionProps {
   customerId: string;
@@ -47,13 +48,13 @@ export default function PricingPlansSection({ customerId }: PricingPlansSectionP
   const handleToggleStatus = async (plan: IndividualPlan) => {
     setTogglingId(plan._id);
     try {
-      const newStatus = plan.status === "active" ? "inactive" : "active";
+      const newIsActive = !plan.isActive;
       await apiService.patch(`/plans/individual/${plan._id}/status`, {
-        status: newStatus,
+        isActive: newIsActive,
       });
       queryClient.invalidateQueries({ queryKey: ["individualPlans", customerId] });
       toast({
-        title: `Plan ${newStatus === "active" ? "activated" : "deactivated"}`,
+        title: `Plan ${newIsActive ? "activated" : "deactivated"}`,
         variant: "success" as any,
       });
     } catch (err: any) {
@@ -102,77 +103,85 @@ export default function PricingPlansSection({ customerId }: PricingPlansSectionP
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>Name</TableHead>
                 <TableHead>Billing Cycle</TableHead>
                 <TableHead>Monthly Price</TableHead>
                 <TableHead>Actual Charge</TableHead>
                 <TableHead>Max Buildings</TableHead>
+                <TableHead>Created</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {plans.map((plan) => (
-                <TableRow key={plan._id}>
-                  <TableCell className="font-medium capitalize">
-                    {plan.billingCycle}
-                  </TableCell>
-                  <TableCell>€{plan.displayPrice}/month</TableCell>
-                  <TableCell>
-                    {plan.billingCycle === "yearly"
-                      ? `€${(plan.displayPrice * 12).toLocaleString()}/year`
-                      : `€${plan.displayPrice}/month`}
-                  </TableCell>
-                  <TableCell>{plan.maxBuildings}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant="outline"
-                      className={
-                        plan.status === "active"
-                          ? "bg-green-50 text-green-700 border-green-200"
-                          : "bg-gray-50 text-gray-500 border-gray-200"
-                      }
-                    >
-                      {plan.status === "active" ? "Active" : "Inactive"}
-                    </Badge>
-                    {plan.purchasedAt && (
+              {plans.map((plan) => {
+                const currencySymbol = plan.currency === "EUR" ? "€" : plan.currency;
+                const monthly = plan.monthlyDisplayPrice ?? plan.price;
+                return (
+                  <TableRow key={plan._id}>
+                    <TableCell className="font-medium">{plan.name}</TableCell>
+                    <TableCell className="capitalize">{plan.billingCycle}</TableCell>
+                    <TableCell>{currencySymbol}{monthly}/month</TableCell>
+                    <TableCell>
+                      {plan.billingCycle === "yearly"
+                        ? `${currencySymbol}${(monthly * 12).toLocaleString()}/year`
+                        : `${currencySymbol}${monthly}/month`}
+                    </TableCell>
+                    <TableCell>{plan.maxBuildings}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {plan.createdAt ? format(new Date(plan.createdAt), "dd.MM.yyyy") : "-"}
+                    </TableCell>
+                    <TableCell>
                       <Badge
                         variant="outline"
-                        className="ml-2 bg-blue-50 text-blue-700 border-blue-200"
+                        className={
+                          plan.isActive
+                            ? "bg-green-50 text-green-700 border-green-200"
+                            : "bg-gray-50 text-gray-500 border-gray-200"
+                        }
                       >
-                        Purchased
+                        {plan.isActive ? "Active" : "Inactive"}
                       </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right space-x-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => {
-                        setEditPlan(plan);
-                        setCreateModalOpen(true);
-                      }}
-                      title="Edit"
-                    >
-                      <Pencil className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setConfirmToggle(plan)}
-                      disabled={togglingId === plan._id}
-                      title={plan.status === "active" ? "Deactivate" : "Activate"}
-                    >
-                      {togglingId === plan._id ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : plan.status === "active" ? (
-                        <ToggleRight className="w-4 h-4 text-green-600" />
-                      ) : (
-                        <ToggleLeft className="w-4 h-4 text-muted-foreground" />
+                      {plan.purchasedAt && (
+                        <Badge
+                          variant="outline"
+                          className="ml-2 bg-blue-50 text-blue-700 border-blue-200"
+                        >
+                          Purchased
+                        </Badge>
                       )}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell className="text-right space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          setEditPlan(plan);
+                          setCreateModalOpen(true);
+                        }}
+                        title="Edit"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setConfirmToggle(plan)}
+                        disabled={togglingId === plan._id}
+                        title={plan.isActive ? "Deactivate" : "Activate"}
+                      >
+                        {togglingId === plan._id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : plan.isActive ? (
+                          <ToggleRight className="w-4 h-4 text-green-600" />
+                        ) : (
+                          <ToggleLeft className="w-4 h-4 text-muted-foreground" />
+                        )}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </div>
@@ -196,12 +205,10 @@ export default function PricingPlansSection({ customerId }: PricingPlansSectionP
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {confirmToggle?.status === "active"
-                ? "Deactivate Plan?"
-                : "Activate Plan?"}
+              {confirmToggle?.isActive ? "Deactivate Plan?" : "Activate Plan?"}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {confirmToggle?.status === "active"
+              {confirmToggle?.isActive
                 ? "The customer will no longer see this plan in their subscription tab."
                 : "The customer will immediately see this plan in their subscription tab."}
             </AlertDialogDescription>
@@ -211,7 +218,7 @@ export default function PricingPlansSection({ customerId }: PricingPlansSectionP
             <AlertDialogAction
               onClick={() => confirmToggle && handleToggleStatus(confirmToggle)}
             >
-              {confirmToggle?.status === "active" ? "Deactivate" : "Activate"}
+              {confirmToggle?.isActive ? "Deactivate" : "Activate"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

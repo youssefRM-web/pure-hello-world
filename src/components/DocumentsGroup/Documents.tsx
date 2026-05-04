@@ -200,7 +200,7 @@ const Documents = () => {
               size="lg"
               onClick={() => setIsAddModalOpen(true)}
               className="flex items-center gap-1"
-              data-onboarding-target="upload-document"
+              data-onboarding-target="upload-document-step2"
             >
               <Plus className="h-4 w-4" />
               {t("common.create")}
