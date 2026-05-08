@@ -1,14 +1,13 @@
-import { useReducer, useEffect, useRef } from 'react';
+import { useReducer, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-
-import { doc, getDoc, collection, setDoc, deleteDoc } from 'firebase/firestore';
-import { db } from 'db/config';
 
 import { useAuthContext } from 'hooks/useAuthContext';
 import { useToast } from 'hooks/useToast';
 
 import CartContext from './cart-context';
 
+import { findVariantBySku } from 'db/mockData';
+import { getCart, setCart, clearCart } from 'db/mockStore';
 import { updateCartAtLogin } from 'helpers/cart';
 
 const initialState = {
@@ -21,230 +20,98 @@ const initialState = {
 const cartReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
-    case 'CART_IS_READY': {
-      return {
-        ...state,
-        cartIsReady: true,
-        isLogin: false,
-      };
-    }
-    case 'CART_NOT_READY': {
-      return {
-        ...state,
-        cartIsReady: false,
-      };
-    }
-    case 'UPDATE_CART': {
-      return {
-        ...state,
-        items: payload,
-        cartIsReady: true,
-        isLogin: false,
-      };
-    }
-    case 'DELETE_CART': {
-      return {
-        ...initialState,
-        cartIsReady: true,
-      };
-    }
-    case 'CHECK': {
-      return {
-        ...state,
-        cartNeedsCheck: true,
-      };
-    }
-    case 'NO_CHECK': {
-      return {
-        ...state,
-        cartNeedsCheck: false,
-      };
-    }
-    case 'IS_LOGIN': {
-      return {
-        ...state,
-        isLogin: true,
-      };
-    }
-    case 'IS_NOT_LOGIN': {
-      return {
-        ...state,
-        isLogin: false,
-      };
-    }
-
-    default: {
+    case 'CART_IS_READY':
+      return { ...state, cartIsReady: true, isLogin: false };
+    case 'CART_NOT_READY':
+      return { ...state, cartIsReady: false };
+    case 'UPDATE_CART':
+      return { ...state, items: payload, cartIsReady: true, isLogin: false };
+    case 'DELETE_CART':
+      return { ...initialState, cartIsReady: true };
+    case 'CHECK':
+      return { ...state, cartNeedsCheck: true };
+    case 'NO_CHECK':
+      return { ...state, cartNeedsCheck: false };
+    case 'IS_LOGIN':
+      return { ...state, isLogin: true };
+    case 'IS_NOT_LOGIN':
+      return { ...state, isLogin: false };
+    default:
       return state;
-    }
   }
+};
+
+const populateItem = (item) => {
+  const found = findVariantBySku(item.skuId);
+  if (!found) return null;
+  const { product, variant, sku } = found;
+  if (sku.quantity <= 0) return null;
+  const quantity = Math.min(item.quantity, sku.quantity);
+  return {
+    ...item,
+    quantity,
+    size: sku.size,
+    model: product.model,
+    type: product.type,
+    color: variant.color,
+    price: variant.variantPrice ?? variant.price,
+    slug: `${product.slug}-${variant.color}`,
+    image: variant.images?.[0]?.src,
+  };
 };
 
 const CartProvider = ({ children }) => {
   const { sendToast } = useToast();
-
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const location = useLocation();
-
   const { user } = useAuthContext();
 
-  
-
   useEffect(() => {
-    if (user && state.isLogin) {
-      dispatch({ type: 'CART_NOT_READY' });
-      const getCart = async () => {
-        try {
-          const cartRef = doc(db, 'carts', user.uid);
-          const cartDoc = await getDoc(cartRef);
-
-          if (
-            (location.pathname === '/cart' ||
-              location.pathname === '/checkout') 
-            // firstLoad.current
-          ) {
-            dispatch({ type: 'NO_CHECK' });
-          }
-          // firstLoad.current = false;
-
-          let currentCartItems = [];
-          let cartNeedsUpdate;
-
-          if (cartDoc.exists()) {
-            const cartData = cartDoc.data();
-            if (cartData.items.length > 0) {
-              currentCartItems = cartData.items;
-            } else {
-              await deleteDoc(cartRef);
-            }
-          }
-
-          if (state.items.length > 0) {
-            cartNeedsUpdate = true;
-
-            const itemsForCartUpdate = [...state.items, ...currentCartItems];
-            currentCartItems = updateCartAtLogin(itemsForCartUpdate);
-          }
-
-          if (currentCartItems.length > 0) {
-            let fetchedProductsDocs = {};
-            let fetchedVariantsDocs = {};
-
-            const cartItemPromises = currentCartItems.map(async (item) => {
-              const skuRef = doc(
-                collection(db, 'products', item.productId, 'skus'),
-                item.skuId
-              );
-
-              const skuDoc = await getDoc(skuRef);
-
-              if (skuDoc.exists()) {
-                const skuData = skuDoc.data();
-
-                if (skuData.quantity > 0) {
-                  let currenItemQuantity = item.quantity;
-
-                  if (item.quantity > skuData.quantity) {
-                    cartNeedsUpdate = true;
-                    currenItemQuantity = skuData.quantity;
-                  }
-
-                  if (item.model) {
-                    return { ...item, quantity: currenItemQuantity };
-                  }
-
-                  let productData;
-                  let variantData;
-
-                  if (!fetchedProductsDocs[item.productId]) {
-                    const productRef = doc(db, 'products', item.productId);
-                    const productDoc = await getDoc(productRef);
-
-                    productData = productDoc.data();
-                    fetchedProductsDocs[item.productId] = productData;
-                  } else {
-                    productData = fetchedProductsDocs[item.productId];
-                  }
-
-                  if (!fetchedVariantsDocs[item.variantId]) {
-                    const variantRef = doc(
-                      collection(db, 'products', item.productId, 'variants'),
-                      item.variantId
-                    );
-                    const variantDoc = await getDoc(variantRef);
-
-                    variantData = variantDoc.data();
-                    fetchedVariantsDocs[item.variantId] = variantData;
-                  } else {
-                    variantData = fetchedVariantsDocs[item.variantId];
-                  }
-
-                  return {
-                    ...item,
-                    quantity: currenItemQuantity,
-                    size: skuData.size,
-                    model: productData.model,
-                    type: productData.type,
-                    color: variantData.color,
-                    price: variantData.variantPrice,
-                    slug: productData.slug + '-' + variantData.color,
-                    image: variantData.images[0].src,
-                  };
-                } else {
-                  cartNeedsUpdate = true;
-                  return null;
-                }
-              } else {
-                cartNeedsUpdate = true;
-                return null;
-              }
-            });
-
-            let populatedCartItems = await Promise.all(cartItemPromises);
-
-            if (cartNeedsUpdate) {
-              populatedCartItems = populatedCartItems.filter(
-                (item) => item !== null
-              );
-
-              const updatedItemsDb = populatedCartItems.map((item) => ({
-                skuId: item.skuId,
-                productId: item.productId,
-                variantId: item.variantId,
-                quantity: item.quantity,
-              }));
-
-              await setDoc(cartRef, {
-                items: updatedItemsDb,
-              });
-
-              sendToast({
-                error: true,
-                content: {
-                  message: 'Item quantities in cart have been updated!',
-                },
-              });
-            }
-
-            dispatch({
-              type: 'UPDATE_CART',
-              payload: populatedCartItems,
-            });
-          } else {
-            dispatch({
-              type: 'CART_IS_READY',
-            });
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      getCart();
-    } else {
+    if (!user) {
       dispatch({ type: 'CART_IS_READY' });
+      return;
     }
-  }, [user]);
+    if (!state.isLogin) return;
 
-  console.log('cart-context', state);
+    dispatch({ type: 'CART_NOT_READY' });
+    if (location.pathname === '/cart' || location.pathname === '/checkout') {
+      dispatch({ type: 'NO_CHECK' });
+    }
+
+    let stored = getCart();
+    let needsUpdate = false;
+
+    if (state.items.length > 0) {
+      stored = updateCartAtLogin([...state.items, ...stored]);
+      needsUpdate = true;
+    }
+
+    if (stored.length === 0) {
+      dispatch({ type: 'CART_IS_READY' });
+      return;
+    }
+
+    const populated = stored
+      .map((item) => {
+        const result = populateItem(item);
+        if (!result) needsUpdate = true;
+        else if (result.quantity !== item.quantity) needsUpdate = true;
+        return result;
+      })
+      .filter(Boolean);
+
+    if (needsUpdate) {
+      const persistable = populated.map((i) => ({
+        skuId: i.skuId, productId: i.productId, variantId: i.variantId, quantity: i.quantity,
+      }));
+      if (persistable.length === 0) clearCart();
+      else setCart(persistable);
+      sendToast?.({ error: true, content: { message: 'Item quantities in cart have been updated!' } });
+    }
+
+    dispatch({ type: 'UPDATE_CART', payload: populated });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <CartContext.Provider value={{ ...state, dispatch }}>

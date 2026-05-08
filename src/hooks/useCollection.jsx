@@ -1,186 +1,92 @@
 import { useState, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  orderBy,
-  startAfter,
-  limit,
-} from 'firebase/firestore';
-
-import { db } from 'db/config';
-
+import { getProductsByCollection } from 'db/mockData';
 import { formatDiscountNumber } from 'helpers/format';
+
+const PAGE_SIZE = 4;
+
+const sortVariants = (variants, sortBy) => {
+  const arr = [...variants];
+  const dir = sortBy?.direction === 'desc' ? -1 : 1;
+  const field = sortBy?.field || 'createdAt';
+  arr.sort((a, b) => {
+    const av = a[field];
+    const bv = b[field];
+    if (av == null && bv == null) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    if (av < bv) return -1 * dir;
+    if (av > bv) return 1 * dir;
+    return 0;
+  });
+  return arr;
+};
+
+const buildVariantRows = (products) => {
+  const rows = [];
+  for (const product of products) {
+    const { price: actualPrice } = product;
+    for (const variant of product.variants) {
+      const currentPrice = variant.variantPrice ?? variant.price;
+      rows.push({
+        ...product,
+        ...variant,
+        id: uuid(),
+        productId: product.productId,
+        variantId: variant.variantId,
+        price: currentPrice,
+        actualPrice,
+        slides: variant.slides,
+        images: variant.images,
+        skus: variant.skus,
+        sizes: variant.sizes,
+        availableQuantity: variant.availableQuantity,
+        isSoldOut: variant.isSoldOut,
+        numberOfVariants: product.variants.length,
+        allVariants: product.variants,
+        discount: formatDiscountNumber({ currentPrice, actualPrice }),
+        createdAt: product.createdAt,
+      });
+    }
+  }
+  return rows;
+};
 
 export const useCollection = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [hasMore, setHasMore] = useState(true);
 
-
-  const latestDoc = useRef();
-
-  const collectionsMap = {
-    products: collection(db, 'products'),
-    anime: collection(db, 'anime'),
-    music: collection(db, 'music'),
-    // tvShows: collection(db, 'tv shows'),
-    // Add more collections as needed
-  };
+  const offsetRef = useRef(0);
 
   const getCollection = async ({
-    collectionName = collectionsMap[collectionName],
+    collectionName,
     isNewQuery = true,
     sortBy = { field: 'createdAt', direction: 'asc' },
   }) => {
-    setError(null);
+    setIsLoading(true);
     try {
       if (isNewQuery) {
-        latestDoc.current = 0;
+        offsetRef.current = 0;
         setHasMore(true);
       }
+      const products = getProductsByCollection(collectionName);
+      const rows = sortVariants(buildVariantRows(products), sortBy);
 
-      let productsQuery;
+      const start = offsetRef.current;
+      const end = start + PAGE_SIZE;
+      const slice = rows.slice(start, end);
+      offsetRef.current = end;
+      if (end >= rows.length) setHasMore(false);
 
-      let constraints = [orderBy(sortBy.field, sortBy.direction)];
-
-      if (sortBy.field === 'createdAt') {
-        constraints.unshift(orderBy('collection'));
-      }
-
-      if (sortBy.direction === 'desc' && !latestDoc.current) {
-        constraints.push(limit(4));
-      } else {
-        constraints.push(
-          startAfter(isNewQuery ? 0 : latestDoc.current),
-          limit(4)
-        );
-      }
-      const collectionRef = collectionsMap[collectionName];
-      productsQuery = query(collectionRef, ...constraints);
-
-      // if (collectionName === 'products') {
-      //   productsQuery = query(productsRef, ...constraints);
-      // } else {
-      //   productsQuery = query(
-      //     productsRef,
-      //     where('collection', '==', collectionName),
-      //     ...constraints
-      //   );
-      // }
-
-      const productsSnapshot = await getDocs(productsQuery);
-
-      if (productsSnapshot.size === 0) {
-        setHasMore(false);
-        setIsLoading(false);
-        return [];
-      }
-
-      setIsLoading(true);
-
-      latestDoc.current =
-        productsSnapshot.docs[productsSnapshot.docs.length - 1];
-
-      const productsPromises = productsSnapshot.docs.map(async (productDoc) => {
-        const productData = {
-          productId: productDoc.id,
-          ...productDoc.data(),
-        };
-
-        const skusRef = collection(productDoc.ref, 'skus');
-        const skusQuery = query(skusRef, orderBy('order'));
-
-        const skusSnapshot = await getDocs(skusQuery);
-
-        const skus = [];
-
-        skusSnapshot.forEach((skuDoc) =>
-          skus.push({
-            skuId: skuDoc.id,
-            ...skuDoc.data(),
-          })
-        );
-
-        const variantsRef = collection(productDoc.ref, 'variants');
-
-        const variantsSnapshot = await getDocs(variantsRef);
-
-        const productVariants = [];
-
-        variantsSnapshot.forEach((variantDoc) => {
-          let variantSkus = skus
-            .filter((sku) => sku.variantId === variantDoc.id)
-            .map((sku) => ({
-              size: sku.size,
-              skuId: sku.skuId,
-              quantity: sku.quantity,
-            }));
-
-          let availableQuantity = variantSkus.reduce((result, obj) => {
-            if (!obj.size) {
-              result['singleSize'] = obj.quantity;
-            } else {
-              result[obj.size] = obj.quantity;
-            }
-            return result;
-          }, {});
-
-          const sizes = Object.keys(availableQuantity);
-
-          const isSoldOut = variantSkus.every((sku) => sku.quantity === 0);
-
-          const { price: actualPrice, ...restProductData } = productData;
-          const {
-            variantPrice: currentPrice,
-            images: variantImages,
-            ...restVariantData
-          } = variantDoc.data();
-
-          const formattedVariantImages = variantImages.map((image) => ({
-            ...image,
-            url: `${restProductData.slug}-${restVariantData.color}`,
-          }));
-
-          productVariants.push({
-            variantId: variantDoc.id,
-            price: currentPrice,
-            actualPrice,
-            ...restProductData,
-            ...restVariantData,
-            slides: formattedVariantImages,
-            numberOfVariants: variantsSnapshot.size,
-            availableQuantity,
-            sizes,
-            skus: variantSkus,
-            discount: formatDiscountNumber({
-              currentPrice,
-              actualPrice,
-            }),
-            isSoldOut,
-          });
-        });
-
-        const formattedProductVariants = productVariants.map((variant) => ({
-          ...variant,
-          id: uuid(),
-          allVariants: productVariants,
-        }));
-
-        return formattedProductVariants;
-      });
-
-      const products = await Promise.all(productsPromises);
-
+      await new Promise((r) => setTimeout(r, 50));
       setIsLoading(false);
-      return [].concat(...products);
+      return slice;
     } catch (err) {
       console.error(err);
-      setError(err);
       setIsLoading(false);
+      return [];
     }
   };
 

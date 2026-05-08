@@ -1,55 +1,44 @@
 import { useState } from 'react';
 
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
-
-import { db } from 'db/config';
-
 import { useCheckoutContext } from './useCheckoutContext';
-import { useAuthContext } from './useAuthContext';
 import { useAddress } from './useAddress';
+
+import {
+  getCheckoutSession,
+  setCheckoutSession,
+  clearCheckoutSession,
+} from 'db/mockStore';
 
 export const useCheckout = () => {
   const { dispatch } = useCheckoutContext();
-  const { user } = useAuthContext();
   const { createAddress } = useAddress();
-
-  const checkoutSessionRef = doc(db, 'checkoutSessions', user.uid);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const selectPreviousStep = () => {
-    dispatch({ type: 'SELECT_PREVIOUS_STEP' });
+  const updateSession = (patch) => {
+    const current = getCheckoutSession() || {};
+    setCheckoutSession({ ...current, ...patch });
   };
 
-  const selectStep = (index) => {
-    dispatch({ type: 'SELECT_STEP', payload: index });
-  };
+  const selectPreviousStep = () => dispatch({ type: 'SELECT_PREVIOUS_STEP' });
+  const selectStep = (index) => dispatch({ type: 'SELECT_STEP', payload: index });
 
   const submitShippingInfo = async (userInput) => {
     setError(null);
     setIsLoading(true);
     try {
       const { email, ...shippingAddress } = userInput;
-
-      let formattedShippingAddress = shippingAddress;
-
+      let formatted = shippingAddress;
       if (shippingAddress.value === 'new') {
-        await createAddress({
-          ...shippingAddress,
-        });
+        const created = await createAddress({ ...shippingAddress });
+        if (created) formatted = created;
       }
-
-      await updateDoc(checkoutSessionRef, {
-        email,
-        shippingAddressId: formattedShippingAddress.id,
-      });
-
+      updateSession({ email, shippingAddressId: formatted.id });
       dispatch({
         type: 'SUBMIT_SHIPPING_INFO',
-        payload: { email, shippingAddress: formattedShippingAddress },
+        payload: { email, shippingAddress: formatted },
       });
-
       setIsLoading(false);
     } catch (err) {
       console.error(err);
@@ -59,19 +48,10 @@ export const useCheckout = () => {
   };
 
   const selectShippingOption = (option) => {
-    let selectedOption;
-    if (option === 'standard') {
-      selectedOption = {
-        standard: true,
-        expedited: false,
-      };
-    } else {
-      selectedOption = {
-        standard: false,
-        expedited: true,
-      };
-    }
-
+    const selectedOption =
+      option === 'standard'
+        ? { standard: true, expedited: false }
+        : { standard: false, expedited: true };
     dispatch({ type: 'SELECT_SHIPPING_OPTION', payload: selectedOption });
   };
 
@@ -79,13 +59,8 @@ export const useCheckout = () => {
     setError(null);
     setIsLoading(true);
     try {
-      await updateDoc(checkoutSessionRef, {
-        shippingOption,
-        shippingCost,
-      });
-
+      updateSession({ shippingOption, shippingCost });
       dispatch({ type: 'SUBMIT_SHIPPING_OPTION', payload: shippingCost });
-
       setIsLoading(false);
     } catch (err) {
       console.error(err);
@@ -98,7 +73,8 @@ export const useCheckout = () => {
     setError(null);
     setIsLoading(true);
     try {
-      await deleteDoc(checkoutSessionRef);
+      clearCheckoutSession();
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
       setError(err);

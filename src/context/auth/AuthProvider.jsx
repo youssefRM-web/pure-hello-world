@@ -1,10 +1,7 @@
 import { useReducer, useEffect } from 'react';
+import { v4 as uuid } from 'uuid';
 
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-
-import { auth } from 'db/config';
-import { db } from 'db/config';
+import { getCurrentUser, setCurrentUser, getUserRecord, upsertUserRecord } from 'db/mockStore';
 
 import AuthContext from './auth-context';
 
@@ -88,29 +85,25 @@ const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userRef);
+    let stored = getCurrentUser();
+    if (!stored) {
+      // Create an anonymous "user" placeholder
+      stored = { uid: `anon-${uuid()}`, isAnonymous: true };
+      setCurrentUser(stored);
+      dispatch({ type: 'ANONYMOUS_AUTH_IS_READY', payload: { user: stored } });
+      return;
+    }
 
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          dispatch({
-            type: 'AUTH_IS_READY',
-            payload: { user, ...userData },
-          });
-        } else {
-          dispatch({
-            type: 'ANONYMOUS_AUTH_IS_READY',
-            payload: { user },
-          });
-        }
-      } else {
-        await signInAnonymously(auth);
-      }
+    if (stored.isAnonymous) {
+      dispatch({ type: 'ANONYMOUS_AUTH_IS_READY', payload: { user: stored } });
+      return;
+    }
+
+    const record = getUserRecord(stored.uid) || {};
+    dispatch({
+      type: 'AUTH_IS_READY',
+      payload: { user: stored, ...record },
     });
-
-    return () => unsub();
   }, []);
 
   console.log('auth-context', state);

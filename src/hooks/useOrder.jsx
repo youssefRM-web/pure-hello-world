@@ -1,20 +1,6 @@
 import { useState } from 'react';
-
+import { v4 as uuid } from 'uuid';
 import moment from 'moment';
-
-import {
-  writeBatch,
-  doc,
-  collection,
-  query,
-  where,
-  orderBy,
-  getDocs,
-  addDoc,
-  increment,
-} from 'firebase/firestore';
-
-import { db } from 'db/config';
 
 import { useAuthContext } from './useAuthContext';
 import { useCartContext } from './useCartContext';
@@ -23,37 +9,24 @@ import { useCart } from './useCart';
 import { useCheckout } from './useCheckout';
 
 import { handleError } from 'helpers/error/handleError';
+import { addOrder, getOrders as readOrders } from 'db/mockStore';
 
 export const useOrder = () => {
   const { user } = useAuthContext();
   const { items } = useCartContext();
-  const { email, shippingAddress, shippingOption, shippingCost } =
-    useCheckoutContext();
+  const { email, shippingAddress, shippingOption, shippingCost } = useCheckoutContext();
   const { deleteCart } = useCart();
   const { deleteCheckoutSession } = useCheckout();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const ordersRef = collection(db, 'orders');
-
   const createOrder = async (paymentInfo, billingAddress) => {
     setError(null);
     setIsLoading(true);
     try {
-      const batch = writeBatch(db);
-
-      for (const item of items) {
-        const skuRef = doc(
-          collection(db, 'products', item.productId, 'skus'),
-          item.skuId
-        );
-        batch.update(skuRef, { quantity: increment(-item.quantity) });
-      }
-
-      await batch.commit();
-
-      await addDoc(ordersRef, {
+      addOrder({
+        id: uuid(),
         createdAt: moment().toDate(),
         items,
         email,
@@ -62,12 +35,11 @@ export const useOrder = () => {
         shippingCost,
         paymentInfo,
         billingAddress,
-        createdBy: user.uid,
+        createdBy: user?.uid,
       });
 
       await deleteCart();
       await deleteCheckoutSession();
-
       setIsLoading(false);
     } catch (err) {
       console.error(err);
@@ -78,25 +50,12 @@ export const useOrder = () => {
 
   const getOrders = async () => {
     setError(null);
-
     try {
-      const orders = [];
-
-      const q = query(
-        ordersRef,
-        where('createdBy', '==', user.uid),
-        orderBy('createdAt', 'desc')
-      );
-
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        orders.push({ id: doc.id, ...doc.data() });
-      });
-
-      return orders;
+      return readOrders().filter((o) => o.createdBy === user?.uid);
     } catch (err) {
       console.error(err);
       setError(handleError(err));
+      return [];
     }
   };
 

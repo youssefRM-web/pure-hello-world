@@ -1,11 +1,9 @@
 import { useReducer, useEffect } from 'react';
-
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
-import { db } from 'db/config';
-
 import ProductContext from './product-context';
+
+import { getProductBySlug } from 'db/mockData';
 
 const initialState = {
   productIsReady: false,
@@ -18,187 +16,84 @@ const initialState = {
 
 const productReducer = (state, action) => {
   const { type, payload } = action;
-
   switch (type) {
-    case 'CLEAR_PRODUCT': {
-      return {
-        ...initialState,
-      };
-    }
-
-    case 'SET_PRODUCT': {
+    case 'CLEAR_PRODUCT':
+      return { ...initialState };
+    case 'SET_PRODUCT':
       return {
         ...state,
         productIsReady: true,
         selectedProduct: payload.product,
         selectedVariant: payload.variant,
       };
-    }
-
-    case 'SELECT_VARIANT': {
+    case 'SELECT_VARIANT':
       return {
         ...state,
         selectedVariant: payload,
         selectedSkuId: '',
         selectedSize: '',
       };
-    }
-
-    case 'SELECT_SIZE': {
+    case 'SELECT_SIZE':
       return {
         ...state,
         selectedSkuId: payload.skuId,
         selectedSize: payload.value,
       };
-    }
-
-    case 'SINGLE_SIZE': {
+    case 'SINGLE_SIZE':
       return {
         ...state,
         singleSize: { quantity: payload.quantity },
         selectedSkuId: payload.selectedSkuId,
       };
-    }
-
-    default: {
+    default:
       return state;
-    }
   }
 };
 
 const ProductProvider = ({ children }) => {
-  const { id: slugId, collectionName } = useParams();
+  const { id: slugId } = useParams();
   const { pathname, state: slugState } = useLocation();
   const navigate = useNavigate();
 
   const [state, dispatch] = useReducer(productReducer, initialState);
 
-  const getProduct = async () => {
-    try {
-      const slugArr = slugId.split('-');
-      const selectedColor = slugArr.pop();
-      const formattedSlug = slugArr.join('-');
-
-      let collectionRef;
-      switch (collectionName) {
-        case 'products':
-          collectionRef = collection(db, 'products');
-          break;
-        case 'anime':
-          collectionRef = collection(db, 'anime');
-          break;
-        case 'music':
-          collectionRef = collection(db, 'music');
-          break;
-        // Add more cases for other collections as needed
-        default:
-          throw new Error(`Invalid collection name: ${collectionName}`);
-      }
-
-      // const productsRef = collection(db, 'anime');
-      const productQuery = query(
-        collectionRef,
-        where('slug', '==', formattedSlug)
-      );
-
-      const productsSnapshot = await getDocs(productQuery);
-
-      const productDoc = productsSnapshot.docs[0];
-
-      if (productDoc) {
-        const variantsRef = collection(productDoc.ref, 'variants');
-        const variantCheckQuery = query(
-          variantsRef,
-          where('color', '==', selectedColor)
-        );
-
-        const variantCheckSnapshot = await getDocs(variantCheckQuery);
-
-        if (variantCheckSnapshot.size === 0) {
-          return { product: null, variant: null };
-        }
-
-        const productData = {
-          productId: productDoc.id,
-          ...productDoc.data(),
-        };
-
-        const skusRef = collection(productDoc.ref, 'skus');
-
-        const skusQuery = query(skusRef, orderBy('order'));
-
-        const skusSnapshot = await getDocs(skusQuery);
-
-        const skusData = skusSnapshot.docs.map((skuDoc) => ({
-          skuId: skuDoc.id,
-          ...skuDoc.data(),
-        }));
-
-        const variantsSnapshot = await getDocs(variantsRef);
-
-        const variants = [];
-
-        variantsSnapshot.forEach((variantDoc) =>
-          variants.push({
-            ...variantDoc.data(),
-            variantId: variantDoc.id,
-            sizes: skusData
-              .filter((sku) => sku.variantId === variantDoc.id)
-              .map((sku) => ({
-                skuId: sku.skuId,
-                value: sku.size,
-                quantity: sku.quantity,
-              })),
-          })
-        );
-
-        const selectedVariant = variants.find(
-          (variant) => variant.color === selectedColor
-        );
-
-        if (selectedVariant.sizes.length === 1) {
-          dispatch({
-            type: 'SINGLE_SIZE',
-            payload: {
-              selectedSkuId: selectedVariant.sizes[0].skuId,
-              quantity: selectedVariant.sizes[0].quantity,
-            },
-          });
-        }
-
-        return {
-          product: {
-            ...productData,
-            variants,
-          },
-          variant: selectedVariant,
-        };
-      } else {
-        return { product: null, variant: null };
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
     if (slugState) {
       navigate({ pathname, state: null });
-    } else {
-      if (state.productIsReady) {
-        dispatch({ type: 'CLEAR_PRODUCT' });
-      }
-      const fetchProduct = async () => {
-        const { product, variant } = await getProduct();
-
-        dispatch({ type: 'SET_PRODUCT', payload: { product, variant } });
-      };
-
-      fetchProduct();
+      return;
     }
-  }, [slugId, slugState]);
+    if (state.productIsReady) {
+      dispatch({ type: 'CLEAR_PRODUCT' });
+    }
 
-  console.log('product-context', state);
+    const slugArr = (slugId || '').split('-');
+    const selectedColor = slugArr.pop();
+    const formattedSlug = slugArr.join('-');
+
+    const product = getProductBySlug(formattedSlug);
+    if (!product) {
+      dispatch({ type: 'SET_PRODUCT', payload: { product: null, variant: null } });
+      return;
+    }
+    const variant = product.variants.find((v) => v.color === selectedColor) || product.variants[0];
+    if (!variant) {
+      dispatch({ type: 'SET_PRODUCT', payload: { product: null, variant: null } });
+      return;
+    }
+
+    if (variant.sizes.length === 1) {
+      dispatch({
+        type: 'SINGLE_SIZE',
+        payload: {
+          selectedSkuId: variant.skus[0].skuId,
+          quantity: variant.skus[0].quantity,
+        },
+      });
+    }
+
+    dispatch({ type: 'SET_PRODUCT', payload: { product, variant } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slugId, slugState]);
 
   return (
     <ProductContext.Provider value={{ ...state, dispatch }}>

@@ -1,28 +1,21 @@
 import { useState } from 'react';
-
-import {
-  EmailAuthProvider,
-  createUserWithEmailAndPassword,
-  linkWithCredential,
-  signInWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth';
-import { doc, getDoc, deleteDoc, setDoc } from 'firebase/firestore';
-
-import { auth } from 'db/config';
-import { db } from 'db/config';
+import { v4 as uuid } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from './useAuthContext';
 import { useCartContext } from './useCartContext';
 
-import { useNavigate } from 'react-router-dom';
-
-import { handleError } from 'helpers/error/handleError';
+import {
+  setCurrentUser,
+  upsertUserRecord,
+  getUserRecord,
+  getUsers,
+} from 'db/mockStore';
 
 export const useAuth = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const { user, dispatch: dispatchAuthAction } = useAuthContext();
+  const { dispatch: dispatchAuthAction } = useAuthContext();
   const { dispatch: dispatchCartAction } = useCartContext();
 
   const [error, setError] = useState(null);
@@ -33,54 +26,27 @@ export const useAuth = () => {
     setError(null);
     setIsLoading(true);
     setDefaultValue({ name, lastName, email });
-  
-    try {
-      // Check if there is a currently authenticated user
-      if (auth.currentUser) {
-        // This block is for linking the new credential to an existing user
-        const credential = EmailAuthProvider.credential(email, password);
-  
-        const userCredential = await linkWithCredential(
-          auth.currentUser,
-          credential
-        );
-  
-        const user = userCredential.user;
-  
-        const userData = {
-          name,
-          lastName,
-          email,
-          phoneNumber: null,
-          addresses: [],
-          isVerified: true,
-        };
-  
-        await setDoc(doc(db, 'users', user.uid), userData);
-  
-        dispatchAuthAction({ type: 'LOGIN', payload: { user, ...userData } });
-      } else {
-        // No user is currently authenticated, so proceed with new user sign-up
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-        const user = userCredential.user;
-    
-        const userData = {
-          name,
-          lastName,
-          email,
-          phoneNumber: null,
-          addresses: [],
-          isVerified: true,
-        };
-  
-        await setDoc(doc(db, 'users', user.uid), userData);
-  
-        dispatchAuthAction({ type: 'LOGIN', payload: { user, ...userData } });
-      }
+    try {
+      const uid = `user-${uuid()}`;
+      const user = { uid, email, isAnonymous: false };
+      const userData = {
+        name,
+        lastName,
+        email,
+        phoneNumber: null,
+        addresses: [],
+        isVerified: true,
+        password, // mock-only — do NOT do this in real apps
+      };
+      upsertUserRecord(uid, userData);
+      setCurrentUser(user);
+      dispatchAuthAction({ type: 'LOGIN', payload: { user, ...userData } });
+      setIsLoading(false);
+      navigate('/');
     } catch (err) {
       console.error(err);
-      setError(handleError(err));
+      setError({ message: err.message });
       setIsLoading(false);
     }
   };
@@ -92,23 +58,38 @@ export const useAuth = () => {
 
     try {
       dispatchCartAction({ type: 'IS_LOGIN' });
-      const anonymousUser = user;
 
-      // const anonymousCartRef = doc(db, 'carts', anonymousUser.uid);
-      // const anonymousCartDoc = await getDoc(anonymousCartRef);
+      const all = getUsers();
+      let foundUid = Object.keys(all).find((uid) => all[uid].email === email);
 
-      await signInWithEmailAndPassword(auth, email, password);
+      let user;
+      let userData;
+      if (foundUid) {
+        userData = all[foundUid];
+        user = { uid: foundUid, email, isAnonymous: false };
+      } else {
+        // Mock: accept any email/password and create the account on the fly
+        const uid = `user-${uuid()}`;
+        userData = {
+          name: email.split('@')[0] || 'User',
+          lastName: '',
+          email,
+          phoneNumber: null,
+          addresses: [],
+          isVerified: true,
+          password,
+        };
+        upsertUserRecord(uid, userData);
+        user = { uid, email, isAnonymous: false };
+      }
+
+      setCurrentUser(user);
+      dispatchAuthAction({ type: 'LOGIN', payload: { user, ...userData } });
+      setIsLoading(false);
       navigate('/');
-      // if (!userCredential) {
-      //   throw Error('Error');
-      // }
-
-      // if (anonymousCartDoc.exists()) {
-      //   deleteDoc(doc(db, 'carts', anonymousUser.uid));
-      // }
     } catch (err) {
       console.error(err);
-      setError(handleError(err));
+      setError({ message: err.message });
       dispatchCartAction({ type: 'IS_NOT_LOGIN' });
       setIsLoading(false);
     }
@@ -118,12 +99,16 @@ export const useAuth = () => {
     setError(null);
     setIsLoading(true);
     try {
-      await signOut(auth);
+      const anon = { uid: `anon-${uuid()}`, isAnonymous: true };
+      setCurrentUser(anon);
       dispatchCartAction({ type: 'DELETE_CART' });
       dispatchAuthAction({ type: 'LOGOUT' });
+      // re-init anonymous user so other hooks have user.uid
+      dispatchAuthAction({ type: 'ANONYMOUS_AUTH_IS_READY', payload: { user: anon } });
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
-      setError(handleError(err));
+      setError({ message: err.message });
       setIsLoading(false);
     }
   };

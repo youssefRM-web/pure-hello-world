@@ -1,17 +1,11 @@
 import { useState } from 'react';
 
-import { doc, updateDoc } from 'firebase/firestore';
-
-import { db } from 'db/config';
-
 import { useAuthContext } from './useAuthContext';
-
 import { handleError } from 'helpers/error/handleError';
+import { upsertUserRecord } from 'db/mockStore';
 
 export const useProfile = () => {
   const { user, dispatch } = useAuthContext();
-
-  const userRef = doc(db, 'users', user.uid);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -20,17 +14,10 @@ export const useProfile = () => {
     setError(null);
     setIsLoading(true);
     try {
-      await updateDoc(userRef, {
-        name,
-        lastName,
-        phoneNumber,
-      });
-
-      dispatch({
-        type: 'UPDATE_USER',
-        payload: { name, lastName, phoneNumber },
-      });
-
+      if (user?.uid) {
+        upsertUserRecord(user.uid, { name, lastName, phoneNumber });
+      }
+      dispatch({ type: 'UPDATE_USER', payload: { name, lastName, phoneNumber } });
       setIsLoading(false);
     } catch (err) {
       console.error(err);
