@@ -1,0 +1,97 @@
+[
+  {
+    "collection": "metallica",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Metallica",
+    "price": 45,
+    "slug": "metalica",
+    "type": "metal",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fgojo01%2Fgojo%2001%20hoodie.jpg?alt=media&token=c73b807b-0a46-4b96-81f9-75a12c5977ed&_gl=1*1ivw8sh*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDIxNjMuNTEuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fgojo01%2Fgojo%2001%20Top.jpg?alt=media&token=e31aa0e1-0d5b-409d-af8c-19f42a08c54d&_gl=1*sc10td*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDIyMzcuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  }
+]

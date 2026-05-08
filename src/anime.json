@@ -1,0 +1,1575 @@
+[
+  {
+    "collection": "jujutsu-kaisen",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Jujutsu Kaisen",
+    "price": 45,
+    "slug": "jjk-gojo",
+    "type": "GOJO",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fgojo01%2Fgojo%2001%20hoodie.jpg?alt=media&token=c73b807b-0a46-4b96-81f9-75a12c5977ed&_gl=1*1ivw8sh*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDIxNjMuNTEuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fgojo01%2Fgojo%2001%20Top.jpg?alt=media&token=e31aa0e1-0d5b-409d-af8c-19f42a08c54d&_gl=1*sc10td*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDIyMzcuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fgojo01%2Fgojo%2001%20Tee.jpg?alt=media&token=811b1cfc-0eb0-48c3-8b47-7c211ebb3a5a&_gl=1*1b0rivk*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDIyNzMuMjQuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fgojo01%2Fgojo%2001%20Te.jpg?alt=media&token=84ef13be-8cac-491d-affc-cf8fb72e8dd2&_gl=1*m47p1u*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDIzNDMuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "jujutsu-kaisen",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Jujutsu Kaisen",
+    "price": 45,
+    "slug": "jjk-gojo",
+    "type": "MEGUMI",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmegumi%2FDSC_1643.jpg?alt=media&token=69de1481-df39-4761-bc46-a4550681a4b1&_gl=1*1gi4ca8*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI2NDguMjIuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmegumi%2FMegumi-Top.jpg?alt=media&token=549005e4-036b-42f8-b663-8facd895ddcd&_gl=1*1vtind3*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI2NzIuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmegumi%2Fmegumi-Oversized.jpg?alt=media&token=1343ee54-5e19-4289-bf6e-7ec381b1d7b6&_gl=1*1377ku5*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI2ODUuNDcuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmegumi%2Fmegumi-Tee.jpg?alt=media&token=5878e5ca-758e-47fb-8631-b2519217a03f&_gl=1*1qw6wut*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI2OTcuMzUuMC4w"
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "jujutsu-kaisen",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Jujutsu Kaisen",
+    "price": 45,
+    "slug": "jjk-gojo",
+    "type": "MAHITO",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmahito%2FMahito%20hoodie.jpg?alt=media&token=b5c2f136-b639-4928-8397-bede9f7243c0&_gl=1*1alxw5j*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI5MTAuNDYuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmahito%2FMahito%20Top.jpg?alt=media&token=e5956619-486d-4253-ba29-d4faac28b510&_gl=1*60kyuo*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI5MzYuMjAuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmahito%2FMahito%20Tee.jpg?alt=media&token=be83be4e-b2ec-4be3-b912-6cda3083488a&_gl=1*judhz7*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI5NTcuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2Fmahito%2FMahito%20Te.jpg?alt=media&token=5a09d999-848f-42be-a325-409f49f119b8&_gl=1*18pulv6*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDI5NzEuNDYuMC4w"
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "jujutsu-kaisen",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Jujutsu Kaisen",
+    "price": 45,
+    "slug": "jjk-gojo",
+    "type": "SUKUNA",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2FModel%201%2FSukuna%20hoodie.jpg?alt=media&token=e7d9f21d-93a4-4f42-a429-92b710c97a00&_gl=1*d60a2y*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDMwMzQuNDUuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2FModel%201%2FSukuna%20Top.jpg?alt=media&token=a64e75ee-005e-4e5f-a702-7cc835589799&_gl=1*1nbfohb*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDMwNDguMzEuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2FModel%201%2FSukuna%20Tee.jpg?alt=media&token=3803f37f-a730-4ec5-ae47-b7b68dc2d7ee&_gl=1*8j82yf*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDMwNjIuMTcuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2Fjujistu%2FModel%201%2FSukuna%20Te.jpg?alt=media&token=d2cba232-9d64-4260-b68f-9bea3adbc332&_gl=1*1j9cef4*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDMwNzkuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "adventure-time",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Adventure Time",
+    "price": 45,
+    "slug": "adventure-time",
+    "type": "D1",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAdventure-Time%2Fmodel%201%2FAdv%20time%2001%20Hoodie.jpg?alt=media&token=f8a45acb-3607-429d-a9c2-092637dff412&_gl=1*ubekl*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDQ5MjMuNDkuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAdventure-Time%2Fmodel%201%2FAdv%20time%2001%20Crop.jpg?alt=media&token=901528c9-2196-4c2f-959b-5fe80e8b6c7e&_gl=1*r5kh5f*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDQ5NzYuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAdventure-Time%2Fmodel%201%2FAdv%20time%2001%20Tee.jpg?alt=media&token=875dc219-02d4-454c-aeaf-233712462e2a&_gl=1*to5zk6*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDQ5OTAuNDYuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAdventure-Time%2Fmodel%201%2FAdv%20time%2001%20Te.jpg?alt=media&token=42464945-4cf8-46fd-8be7-c186a3393273&_gl=1*qniacg*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5Njk0MTA3Ny4zMC4xLjE2OTY5NDQ5OTguMzguMC4w"
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "attack-on-titan",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Attack On Titan",
+    "price": 45,
+    "slug": "attack-on-titan",
+    "type": "Eren Jaeger",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Feren%2FEren%20hoodie.jpg?alt=media&token=8c93a4a9-d4df-47c3-ab9b-b330b4963efb&_gl=1*3k9u0g*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDY4MjcuNTguMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Feren%2FEren%20crop.jpg?alt=media&token=b936e76f-2998-4aa5-beaa-74242c3db463&_gl=1*2pnt9y*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDY4NTIuMzMuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Feren%2FEren%20Tee.jpg?alt=media&token=8a37ecbd-1bed-4446-bafa-c8f564dab7f0&_gl=1*zmpmo8*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDY4NjguMTcuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Feren%2FEren%20te.jpg?alt=media&token=9a0c39d5-3a41-4bef-90cb-8dc4438336b7&_gl=1*1upviqd*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDY4ODIuMy4wLjA."
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "attack-on-titan",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Attack On Titan",
+    "price": 45,
+    "slug": "attack-on-titan",
+    "type": "Levi Ackerman",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Flevi%2FLevi%2001%20Hoodie.jpg?alt=media&token=2231d260-8a73-44e5-adb8-bf186a3590ba&_gl=1*r8bzvg*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDY5NzQuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Flevi%2FLevi%2001%20top.jpg?alt=media&token=46924e8f-65c6-43a1-8a66-88fa4d05aeff&_gl=1*1qswcmv*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDY5OTcuMzcuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Flevi%2FLevi%2001%20tee.jpg?alt=media&token=f8878053-569a-4817-b74a-85b46f9ed7c9&_gl=1*1ntob95*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDcwMjkuNS4wLjA."
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FAOT%2Flevi%2FLevi%2001%20te.jpg?alt=media&token=5d6cd0a5-abd3-442b-8496-a11307987c14&_gl=1*ed4heo*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDcwMTIuMjIuMC4w"
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "berzerk",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Berzerk",
+    "price": 45,
+    "slug": "berzerk",
+    "type": "",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FBerserk%2001%20Front%20hoodie.jpg?alt=media&token=474e1fc9-44ab-4a31-8c77-e0b5ecf5774c&_gl=1*1epx2ln*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDcyMTQuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FBerserk%2001%20Front%20top.jpg?alt=media&token=0148a547-f418-4bcb-962a-56abd73095f7&_gl=1*u7kdt7*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDcyMzkuMzUuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FBerserk%2001%20Front%20Tee.jpg?alt=media&token=7ee96936-6cbe-4569-8a56-0972b6c8d9e0&_gl=1*6rdy71*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDcyNTUuMTkuMC4w"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FBerserk%2001%20back%20Tee.jpg?alt=media&token=b75f9bad-f326-4a28-9aff-f68691acbabc&_gl=1*xes5ii*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDcyNzUuNjAuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "berzerk",
+    "fit": "comfy",
+    "description": "Models",
+    "model": "Berzerk",
+    "price": 45,
+    "slug": "berzerk-guts",
+    "type": "Guts",
+    "variants": [
+      {
+        "color": "Hoodie",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FGuts%2001%20HOODIE.jpg?alt=media&token=e94427c4-f8ca-439c-bd83-137c5471b759&_gl=1*1bh896s*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDczNjguNjAuMC4w"
+          }
+        ],
+        "variantPrice": 45,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Top",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FGuts%2001%20TOP.jpg?alt=media&token=0203b16a-0609-4a71-a07f-f24c92ab83b5&_gl=1*18y0cs4*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDczODIuNDYuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "Oversized",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FGuts%2001%20TeE.jpg?alt=media&token=ba2c55dc-53f3-4937-a1b2-e3746dcb2214&_gl=1*19u9q4l*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDc0MDMuMjUuMC4w"
+          }
+        ],
+        "variantPrice": 40,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      },
+      {
+        "color": "T-shirt",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2FBerserk%2FGuts%2001%20Te.jpg?alt=media&token=42c0bf05-ce0a-4b1b-a3ab-c57be7081833&_gl=1*1b43whf*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NzQwNTI0Ni4zOC4xLjE2OTc0MDc0MTYuMTIuMC4w"
+          }
+        ],
+        "variantPrice": 35,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "jjkgojoxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "jjkgojs"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "jjkgojm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "jjkgojl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "jjkgojxl"
+          }
+        ]
+      }
+    ]
+  }
+]

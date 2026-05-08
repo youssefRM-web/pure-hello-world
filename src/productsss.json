@@ -1,0 +1,439 @@
+[
+  {
+    "collection": "accessories",
+    "fit": "relaxed",
+    "description": "adjustable cap",
+    "model": "baires",
+    "price": 22,
+    "slug": "baires-dad-hat",
+    "type": "dad hat",
+    "variants": [
+      {
+        "color": "white",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 22,
+        "skus": [
+          {
+            "order": null,
+            "quantity": 123,
+            "size": null,
+            "value": "bairesdadhatwhite"
+          }
+        ]
+      },
+      {
+        "color": "black",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 18,
+        "skus": [
+          {
+            "order": null,
+            "quantity": 123,
+            "size": null,
+            "value": "bairesdadhatblack"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "t-shirts",
+    "fit": "oversized",
+    "description": "oversized tee",
+    "model": "de gira",
+    "price": 36,
+    "slug": "de-gira-tee",
+    "type": "tee",
+    "variants": [
+      {
+        "color": "white",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 28,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "degirateewhitexs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "degirateewhites"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "degirateewhitem"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "degirateewhitel"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "degirateewhitexl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "t-shirts",
+    "fit": "oversized",
+    "description": "oversized tee",
+    "model": "stranger Things",
+    "price": 36,
+    "slug": "stranger-things",
+    "type": "tee",
+    "variants": [
+      {
+        "color": "Black",
+        "images": [
+          {
+            "id": 44,
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2F47%2FAdventure-time-ovrsized-Li-Comp-med.jpg?alt=media&token=2ccd63fe-0368-4a65-a120-ce35b92d0343&_gl=1*1xquf4a*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NjI0MjUzNS4yMC4xLjE2OTYyNDM5NTMuMzkuMC4w"
+          },
+          {
+            "id": 45,
+            "src": "https://firebasestorage.googleapis.com/v0/b/gothilium-store.appspot.com/o/product-images%2F47%2FAdventure-time-ovrsized-Li-Comp-med.jpg?alt=media&token=2ccd63fe-0368-4a65-a120-ce35b92d0343&_gl=1*1xquf4a*_ga*MTAwOTk0ODkzMS4xNjk0NjA3NzM2*_ga_CW55HF8NVT*MTY5NjI0MjUzNS4yMC4xLjE2OTYyNDM5NTMuMzkuMC4w"
+          }
+        ],
+        "variantPrice": 28,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "degirateeblackxs"
+          }
+          
+        ]
+      },
+      {
+        "color": "White",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 36,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "degirateeWhitexs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "degirateeWhites"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "hoodies-sweatshirts",
+    "fit": "oversized",
+    "description": "oversized hoodie",
+    "model": "de gira",
+    "price": 68,
+    "slug": "de-gira-hoodie",
+    "type": "hoodie",
+    "variants": [
+      {
+        "color": "white",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 50,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "degirahoodiewhitexs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "degirahoodiewhites"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "degirahoodiewhitem"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "degirahoodiewhitel"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "degirahoodiewhitexl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "t-shirts",
+    "fit": "oversized",
+    "description": "oversized tee",
+    "model": "ojos",
+    "price": 36,
+    "slug": "ojos-tee",
+    "type": "tee",
+    "variants": [
+      {
+        "color": "black",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 36,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "ojosteeblackxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "ojosteeblacks"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "ojosteeblackm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "ojosteeblackl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "ojosteeblackxl"
+          }
+        ]
+      },
+      {
+        "color": "white",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 36,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "ojosteewhitexs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "ojosteewhites"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "ojosteewhitem"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "ojosteewhitel"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "ojosteewhitexl"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "collection": "hoodies-sweatshirts",
+    "fit": "oversized",
+    "description": "oversized sweatshirt",
+    "model": "flaakko",
+    "price": 56,
+    "slug": "flaakko-sweatshirt",
+    "type": "sweatshirt",
+    "variants": [
+      {
+        "color": "black",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 56,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "flaakkosweatblackxs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "flaakkosweatblacks"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "flaakkosweatblackm"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "flaakkosweatblackl"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "flaakkosweatblackxl"
+          }
+        ]
+      },
+      {
+        "color": "white",
+        "images": [
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          },
+          {
+            "id": "Add corresponding image id (id used as folder name where image is found in storage)",
+            "src": "Add corresponging image link from storage"
+          }
+        ],
+        "variantPrice": 56,
+        "skus": [
+          {
+            "order": 1,
+            "quantity": 123,
+            "size": "xs",
+            "value": "flaakkosweatwhitexs"
+          },
+          {
+            "order": 2,
+            "quantity": 123,
+            "size": "s",
+            "value": "flaakkosweatwhites"
+          },
+          {
+            "order": 3,
+            "quantity": 123,
+            "size": "m",
+            "value": "flaakkosweatwhitem"
+          },
+          {
+            "order": 4,
+            "quantity": 123,
+            "size": "l",
+            "value": "flaakkosweatwhitel"
+          },
+          {
+            "order": 5,
+            "quantity": 123,
+            "size": "xl",
+            "value": "flaakkosweatwhitexl"
+          }
+        ]
+      }
+    ]
+  }
+]
