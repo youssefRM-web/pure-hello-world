@@ -39,6 +39,7 @@ import { formatDate } from "@/utils/dateUtils";
 import { getPriorityConfig } from "@/components/BoardGroup/boardUtils";
 import { useOnboardingHighlight } from "@/hooks/useOnboardingHighlight";
 import { useOnboarding } from "@/contexts/OnboardingContext";
+import { TabCountBadge } from "@/components/Common/TabCountBadge";
 
 const Tasks = () => {
   const { t } = useLanguage();
@@ -153,10 +154,22 @@ const Tasks = () => {
     );
   };
 
+  const activeCount = useMemo(
+    () =>
+      buildingFilteredTasks.filter(
+        (task: any) => task.is_active === true || task.is_active === "true",
+      ).length,
+    [buildingFilteredTasks],
+  );
+  const inactiveCount = useMemo(
+    () => buildingFilteredTasks.length - activeCount,
+    [buildingFilteredTasks, activeCount],
+  );
+
   const tabs = [
-    { key: "allTasks", label: t("tasks.allTasks") },
-    { key: "active", label: t("tasks.active") },
-    { key: "inactive", label: t("tasks.inactive") },
+    { key: "allTasks", label: t("tasks.allTasks"), count: buildingFilteredTasks.length },
+    { key: "active", label: t("tasks.active"), count: activeCount },
+    { key: "inactive", label: t("tasks.inactive"), count: inactiveCount },
   ];
 
   const getPriorityBadge = (priority: string) => {
@@ -326,6 +339,10 @@ const Tasks = () => {
               <SelectValue>
                 <div className="flex items-center gap-2">
                   <span>{tabs.find(t => t.key === activeTab)?.label}</span>
+                  <TabCountBadge
+                    count={tabs.find((t) => t.key === activeTab)?.count || 0}
+                    isActive={true}
+                  />
                 </div>
               </SelectValue>
             </SelectTrigger>
@@ -334,6 +351,7 @@ const Tasks = () => {
                 <SelectItem key={tab.key} value={tab.key}>
                   <div className="flex items-center gap-2">
                     <span>{tab.label}</span>
+                    <TabCountBadge count={tab.count} isActive={tab.key === activeTab} />
                   </div>
                 </SelectItem>
               ))}
@@ -356,6 +374,7 @@ const Tasks = () => {
               }`}
             >
               {tab.label}
+              <TabCountBadge count={tab.count} isActive={activeTab === tab.key} />
             </button>
           ))}
         </div>

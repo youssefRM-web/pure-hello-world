@@ -39,6 +39,7 @@ import { formatDate } from "@/utils/dateUtils";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useOnboardingHighlight } from "@/hooks/useOnboardingHighlight";
 import { useOnboarding } from "@/contexts/OnboardingContext";
+import { TabCountBadge } from "@/components/Common/TabCountBadge";
 
 interface QrCodeData {
   _id: string;
@@ -269,8 +270,8 @@ const QrCodes = () => {
   const archivedQrCodes = filterQrCodes(sidebarFilteredQrCodes.filter((qr) => qr.archived));
 
   const tabs = [
-    { name: "active", label: t("qrCodes.activeQrCodes") },
-    { name: "archived", label: t("qrCodes.archivedQrCodes") },
+    { name: "active", label: t("qrCodes.activeQrCodes"), count: activeQrCodes.length },
+    { name: "archived", label: t("qrCodes.archivedQrCodes"), count: archivedQrCodes.length },
   ];
 
   const SkeletonRow = () => (
@@ -449,6 +450,10 @@ const QrCodes = () => {
                     ? t("qrCodes.activeQrCodes")
                     : t("qrCodes.archivedQrCodes")}
                 </span>
+                <TabCountBadge
+                  count={tabs.find((tab) => tab.name === activeTab)?.count || 0}
+                  isActive={true}
+                />
               </div>
             </SelectValue>
           </SelectTrigger>
@@ -457,6 +462,7 @@ const QrCodes = () => {
               <SelectItem key={tab.name} value={tab.name}>
                 <div className="flex items-center gap-2">
                   <span>{tab.label}</span>
+                  <TabCountBadge count={tab.count} isActive={tab.name === activeTab} />
                 </div>
               </SelectItem>
             ))}
@@ -470,13 +476,14 @@ const QrCodes = () => {
           <button
             key={tab.name}
             onClick={() => setActiveTab(tab.name)}
-            className={`px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap ${
+            className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap ${
               activeTab === tab.name
                 ? "bg-primary/10 text-primary font-medium"
                 : "text-muted-foreground font-medium hover:text-foreground hover:bg-accent/50"
             }`}
           >
             {tab.label}
+            <TabCountBadge count={tab.count} isActive={activeTab === tab.name} />
           </button>
         ))}
       </div>

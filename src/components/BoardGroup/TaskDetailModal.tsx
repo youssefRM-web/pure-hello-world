@@ -119,7 +119,13 @@ import { useBuildingSelection } from "@/contexts/BuildingSelectionContext";
 import { validateFileSizes } from "@/utils/fileValidation";
 import UserActivityHoverCard from "./UserActivityHoverCard";
 import { downloadFile } from "@/utils/downloadUtils";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import TabCountBadge from "../Common/TabCountBadge";
 
 // Fields that can be highlighted when changed
 type HighlightableField =
@@ -728,7 +734,6 @@ export function TaskDetailModal({
         return withIndex;
     }
   };
-
 
   // Extract comment attachments (from comments + replies)
   const getCommentAttachments = () => {
@@ -1386,20 +1391,20 @@ export function TaskDetailModal({
               {/* Main Issue Text */}
               <div className={`flex items-center gap-3 group p-1 -m-1 `}>
                 <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <p className="text-base sm:text-xl capitalize font-normal text-foreground mb-3 line-clamp-2 leading-snug first-letter:uppercase break-words ">
-              {displaySummary}
-            </p>
-          </TooltipTrigger>
-          <TooltipContent
-            side="right"
-            className="max-w-xs text-left mb-4 leading-tight break-words"
-          >
-            <p className="text-sm">{displaySummary}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <p className="text-base sm:text-xl capitalize font-normal text-foreground mb-3 line-clamp-2 leading-snug first-letter:uppercase break-words ">
+                        {displaySummary}
+                      </p>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      className="max-w-xs text-left mb-4 leading-tight break-words"
+                    >
+                      <p className="text-sm">{displaySummary}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 {canEdit && hasPermission("board", "createTickets") && (
                   <button
                     onClick={() => setEditingTitle(true)}
@@ -2417,16 +2422,10 @@ export function TaskDetailModal({
                       </span>
                       <span className="sm:hidden">💬</span>
 
-                      <Badge
-                        variant="secondary"
-                        className={` ${
-                          activeTab === "comments"
-                            ? "text-xs rounded-full w-4 h-5 flex items-center justify-center bg-[#F1F5FDFF] text-[#1759E8FF] border-[#1759E8FF] "
-                            : " text-xs rounded-full w-4 h-5 flex items-center justify-center"
-                        }`}
-                      >
-                        {commentCount}
-                      </Badge>
+                      <TabCountBadge
+                        count={commentCount}
+                        isActive={activeTab === "comments"}
+                      />
                     </TabsTrigger>
                     <TabsTrigger
                       value="attachments"
@@ -2437,16 +2436,10 @@ export function TaskDetailModal({
                       </span>
                       <span className="sm:hidden">📎</span>
 
-                      <Badge
-                        variant="secondary"
-                        className={` ${
-                          activeTab === "attachments"
-                            ? "text-xs rounded-full w-4 h-5 flex items-center justify-center bg-[#F1F5FDFF] text-[#1759E8FF] border-[#1759E8FF] "
-                            : " text-xs rounded-full w-4 h-5 flex items-center justify-center"
-                        }`}
-                      >
-                        {getTotalAttachmentCount()}
-                      </Badge>
+                      <TabCountBadge
+                        count={getTotalAttachmentCount()}
+                        isActive={activeTab === "attachments"}
+                      />
                     </TabsTrigger>
                     <TabsTrigger
                       value="activity"
@@ -2517,7 +2510,8 @@ export function TaskDetailModal({
                     <div className="space-y-6">
                       {/* With Task */}
                       {(() => {
-                        const taskAttachments = getFilteredAttachmentsWithIndex();
+                        const taskAttachments =
+                          getFilteredAttachmentsWithIndex();
                         if (taskAttachments.length === 0) return null;
                         return (
                           <div>
@@ -3107,7 +3101,7 @@ export function TaskDetailModal({
                                             {
                                               hour: "numeric",
                                               minute: "2-digit",
-                                              hour12: false
+                                              hour12: false,
                                             },
                                           )}
                                         </div>
@@ -3532,7 +3526,7 @@ export function TaskDetailModal({
                                     {
                                       hour: "2-digit",
                                       minute: "2-digit",
-                                      hour12: false
+                                      hour12: false,
                                     },
                                   )}
                                 </div>

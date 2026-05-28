@@ -40,6 +40,8 @@ import ImportSpacesModal from "@/components/SpaceModals/ImportSpacesModal";
 import { useBuildingsQuery } from "@/hooks/queries/useBuildingsQuery";
 import { useOnboardingHighlight } from "@/hooks/useOnboardingHighlight";
 import { useOnboarding } from "@/contexts/OnboardingContext";
+import { TabCountBadge } from "@/components/Common/TabCountBadge";
+import { useGroupsQuery } from "@/hooks/queries/useGroupsQuery";
 
 const Spaces = () => {
   const { t } = useLanguage();
@@ -63,6 +65,7 @@ const Spaces = () => {
 
   const { filteredSpaces } = useBuildingData();
   const { affectedBuildings } = useBuildingsQuery();
+  const { data: allGroups = [] } = useGroupsQuery();
   const queryClient = useQueryClient();
 
   // Get floors/areas for the selected building
@@ -158,10 +161,23 @@ const Spaces = () => {
     }
   };
 
+  const allSpacesCount = useMemo(
+    () => searchFilteredSpaces.filter((s) => !s.archived).length,
+    [searchFilteredSpaces],
+  );
+  const archivedSpacesCount = useMemo(
+    () => searchFilteredSpaces.filter((s) => s.archived).length,
+    [searchFilteredSpaces],
+  );
+  const spaceGroupsCount = useMemo(
+    () => (allGroups as any[]).filter((g: any) => g.belongTo === "spaces").length,
+    [allGroups],
+  );
+
   const tabs = [
-    { name: "All spaces" },
-    { name: "Archived spaces" },
-    { name: "Groups" },
+    { name: "All spaces", count: allSpacesCount },
+    { name: "Archived spaces", count: archivedSpacesCount },
+    { name: "Groups", count: spaceGroupsCount },
   ];
 
   return (
@@ -204,6 +220,10 @@ const Spaces = () => {
               <SelectValue>
                 <div className="flex items-center gap-2">
                   <span>{getTabLabel(activeTab)}</span>
+                  <TabCountBadge
+                    count={tabs.find((tab) => tab.name === activeTab)?.count || 0}
+                    isActive={true}
+                  />
                 </div>
               </SelectValue>
             </SelectTrigger>
@@ -212,6 +232,7 @@ const Spaces = () => {
                 <SelectItem key={tab.name} value={tab.name}>
                   <div className="flex items-center gap-2">
                     <span>{getTabLabel(tab.name)}</span>
+                    <TabCountBadge count={tab.count} isActive={tab.name === activeTab} />
                   </div>
                 </SelectItem>
               ))}
@@ -225,13 +246,14 @@ const Spaces = () => {
             <button
               key={tab.name}
               onClick={() => setActiveTab(tab.name)}
-              className={`px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap ${
                 activeTab === tab.name
                   ? "bg-primary/10 text-primary font-medium"
                   : "text-muted-foreground font-medium hover:text-foreground hover:bg-accent/50"
               }`}
             >
               {getTabLabel(tab.name)}
+              <TabCountBadge count={tab.count} isActive={activeTab === tab.name} />
             </button>
           ))}
         </div>
