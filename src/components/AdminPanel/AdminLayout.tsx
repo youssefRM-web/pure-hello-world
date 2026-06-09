@@ -67,20 +67,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     const resolvedCount = tickets.filter((t: any) => t.status === "resolved").length;
     return [
       { id: "all", label: "All Tickets", icon: MessageSquare, count: tickets.length, path: "/admin" },
-      { id: "open", label: "Open", icon: FolderOpen, count: openCount, path: "/admin?filter=open" },
-      { id: "in_progress", label: "In Progress", icon: Loader2, count: inProgressCount, path: "/admin?filter=in_progress" },
-      { id: "resolved", label: "Resolved", icon: CheckSquare, count: resolvedCount, path: "/admin?filter=resolved" },
+      { id: "open", label: "Open", icon: FolderOpen, count: openCount, path: "/admin" },
+      { id: "in_progress", label: "In Progress", icon: Loader2, count: inProgressCount, path: "/admin" },
+      { id: "resolved", label: "Resolved", icon: CheckSquare, count: resolvedCount, path: "/admin" },
     ];
   })();
 
   const isActive = (path: string) => {
-    if (path === "/admin") {
-      return currentPath === "/admin" && !location.search;
-    }
-    if (path.includes("?")) {
-      return location.pathname + location.search === path;
-    }
-    return currentPath.startsWith(path);
+    return currentPath === path;
   };
 
   const NavItem = ({
