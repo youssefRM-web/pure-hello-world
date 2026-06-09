@@ -97,6 +97,26 @@ export function TicketsList({
           </Button>
         </div>
 
+        {/* Filter Tabs */}
+        {!isCollapsed && onStatusFilterChange && (
+          <div className="px-2 pt-2 flex gap-1 border-b border-border">
+            {filterTabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => onStatusFilterChange(tab.key)}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-medium rounded-t-md transition-colors",
+                  statusFilter === tab.key
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Tickets List */}
         <div className="flex-1 overflow-auto">
           {filteredTickets.map((ticket) => (
