@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Search,
-  Filter,
   Circle,
   Bot,
   ChevronLeft,
@@ -24,12 +23,23 @@ interface TicketsListProps {
   tickets: AdminTicket[];
   selectedTicketId: string | null;
   onSelectTicket: (ticketId: string) => void;
+  statusFilter?: "all" | "open" | "in_progress" | "resolved";
+  onStatusFilterChange?: (filter: "all" | "open" | "in_progress" | "resolved") => void;
 }
+
+const filterTabs = [
+  { key: "all" as const, label: "All" },
+  { key: "open" as const, label: "Open" },
+  { key: "in_progress" as const, label: "In Progress" },
+  { key: "resolved" as const, label: "Resolved" },
+];
 
 export function TicketsList({
   tickets,
   selectedTicketId,
   onSelectTicket,
+  statusFilter = "all",
+  onStatusFilterChange,
 }: TicketsListProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -71,9 +81,6 @@ export function TicketsList({
                   className="pl-9 bg-muted/50"
                 />
               </div>
-              <Button variant="outline" size="icon">
-                <Filter className="h-4 w-4" />
-              </Button>
             </div>
           )}
           <Button
@@ -89,6 +96,26 @@ export function TicketsList({
             )}
           </Button>
         </div>
+
+        {/* Filter Tabs */}
+        {!isCollapsed && onStatusFilterChange && (
+          <div className="px-2 pt-2 flex gap-1 border-b border-border">
+            {filterTabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => onStatusFilterChange(tab.key)}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-medium rounded-t-md transition-colors",
+                  statusFilter === tab.key
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Tickets List */}
         <div className="flex-1 overflow-auto">

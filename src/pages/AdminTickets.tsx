@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { AdminLayout } from "@/components/AdminPanel/AdminLayout";
 import { TicketsList } from "@/components/AdminPanel/TicketsList";
 import { TicketDetail } from "@/components/AdminPanel/TicketDetail";
-import { useTicketsQuery } from "@/hooks/queries/useTicketsQuery";
 import {
-  useAdminOpenTicketsQuery,
-  useAdminResolvedTicketsQuery,
+  useAdminTicketsQuery,
   useResolveTicketMutation,
 } from "@/hooks/queries/useAdminTicketsQuery";
 import { Loader2 } from "lucide-react";
@@ -16,7 +13,7 @@ export interface AdminTicket {
   ticketNumber: string;
   subject: string;
   description: string;
-  status: "open" | "resolved";
+  status: "open" | "in_progress" | "resolved";
   priority: "high" | "medium" | "low";
   customer: {
     name: string;
@@ -61,40 +58,22 @@ const mapPriority = (priority: number): "high" | "medium" | "low" => {
   return "low";
 };
 
-// Helper to map status - display "open" for open/awaiting tickets, "resolved" for closed
-const mapStatus = (status: string): "open" | "resolved" => {
+// Helper to map status - preserve in_progress
+const mapStatus = (status: string): "open" | "in_progress" | "resolved" => {
   if (status === "closed" || status === "resolved") return "resolved";
+  if (status === "in_progress") return "in_progress";
   return "open"; // open, awaiting, pending all map to open
 };
 
 export default function AdminTickets() {
-  const [searchParams] = useSearchParams();
-  const filter = searchParams.get("filter");
-
-  const { data: allTickets, isLoading: isLoadingAll } = useTicketsQuery();
-  const { data: openTickets, isLoading: isLoadingOpen } =
-    useAdminOpenTicketsQuery();
-  const { data: resolvedTickets, isLoading: isLoadingResolved } =
-    useAdminResolvedTicketsQuery();
+  const { data: allTickets, isLoading } = useAdminTicketsQuery();
   const resolveTicketMutation = useResolveTicketMutation();
 
-  // Use the appropriate API based on filter
-  const apiTickets =
-    filter === "open"
-      ? openTickets
-      : filter === "resolved"
-        ? resolvedTickets
-        : allTickets;
-  const isLoading =
-    filter === "open"
-      ? isLoadingOpen
-      : filter === "resolved"
-        ? isLoadingResolved
-        : isLoadingAll;
-
+  const [statusFilter, setStatusFilter] = useState<"all" | "open" | "in_progress" | "resolved">("all");
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
+
   // Transform API tickets to the format expected by components
-  const tickets: AdminTicket[] = (apiTickets || ([] as any)).map(
+  const mappedTickets: AdminTicket[] = (allTickets || []).map(
     (ticket: any) => ({
       id: ticket._id,
       ticketNumber: ticket._id.slice(-5),
@@ -153,6 +132,11 @@ export default function AdminTickets() {
     }),
   );
 
+  // Filter tickets locally
+  const tickets = statusFilter === "all"
+    ? mappedTickets
+    : mappedTickets.filter((t) => t.status === statusFilter);
+
   // Set default selected ticket
   if (!selectedTicketId && tickets.length > 0) {
     setSelectedTicketId(tickets[0].id);
@@ -177,6 +161,8 @@ export default function AdminTickets() {
           tickets={tickets}
           selectedTicketId={selectedTicketId}
           onSelectTicket={setSelectedTicketId}
+          statusFilter={statusFilter}
+          onStatusFilterChange={setStatusFilter}
         />
         {selectedTicket ? (
           <TicketDetail
