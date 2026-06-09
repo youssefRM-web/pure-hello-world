@@ -81,9 +81,6 @@ export function TicketsList({
                   className="pl-9 bg-muted/50"
                 />
               </div>
-              <Button variant="outline" size="icon">
-                <Filter className="h-4 w-4" />
-              </Button>
             </div>
           )}
           <Button
