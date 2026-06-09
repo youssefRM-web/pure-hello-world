@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -30,48 +31,11 @@ import {
 import axios from "axios";
 import { apiUrl } from "@/services/api";
 import { useCurrentUserQuery } from "@/hooks/queries";
+import { useAdminTicketsQuery } from "@/hooks/queries/useAdminTicketsQuery";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
-
-const ticketCategories = [
-  {
-    id: "all",
-    label: "All Tickets",
-    icon: MessageSquare,
-    count: 5,
-    path: "/admin",
-  },
-  {
-    id: "open",
-    label: "Open",
-    icon: FolderOpen,
-    count: 4,
-    path: "/admin?filter=open",
-  },
-  {
-    id: "unassigned",
-    label: "Unassigned",
-    icon: Circle,
-    count: 2,
-    path: "/admin?filter=unassigned",
-  },
-  {
-    id: "my-tickets",
-    label: "My Tickets",
-    icon: User,
-    count: 2,
-    path: "/admin?filter=my-tickets",
-  },
-  {
-    id: "resolved",
-    label: "Resolved",
-    icon: CheckSquare,
-    count: 1,
-    path: "/admin?filter=resolved",
-  },
-];
 
 const analyticsItems = [
   {
@@ -94,6 +58,20 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const currentPath = location.pathname;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { data: currentUser } = useCurrentUserQuery();
+  const { data: adminTickets } = useAdminTicketsQuery();
+
+  const ticketCategories = (() => {
+    const tickets = adminTickets || [];
+    const openCount = tickets.filter((t: any) => t.status === "open").length;
+    const inProgressCount = tickets.filter((t: any) => t.status === "in_progress").length;
+    const resolvedCount = tickets.filter((t: any) => t.status === "resolved").length;
+    return [
+      { id: "all", label: "All Tickets", icon: MessageSquare, count: tickets.length, path: "/admin" },
+      { id: "open", label: "Open", icon: FolderOpen, count: openCount, path: "/admin?filter=open" },
+      { id: "in_progress", label: "In Progress", icon: Loader2, count: inProgressCount, path: "/admin?filter=in_progress" },
+      { id: "resolved", label: "Resolved", icon: CheckSquare, count: resolvedCount, path: "/admin?filter=resolved" },
+    ];
+  })();
 
   const isActive = (path: string) => {
     if (path === "/admin") {
