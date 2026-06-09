@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Search,
-  Filter,
   Circle,
   Bot,
   ChevronLeft,
@@ -24,12 +23,23 @@ interface TicketsListProps {
   tickets: AdminTicket[];
   selectedTicketId: string | null;
   onSelectTicket: (ticketId: string) => void;
+  statusFilter?: "all" | "open" | "in_progress" | "resolved";
+  onStatusFilterChange?: (filter: "all" | "open" | "in_progress" | "resolved") => void;
 }
+
+const filterTabs = [
+  { key: "all" as const, label: "All" },
+  { key: "open" as const, label: "Open" },
+  { key: "in_progress" as const, label: "In Progress" },
+  { key: "resolved" as const, label: "Resolved" },
+];
 
 export function TicketsList({
   tickets,
   selectedTicketId,
   onSelectTicket,
+  statusFilter = "all",
+  onStatusFilterChange,
 }: TicketsListProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(false);
